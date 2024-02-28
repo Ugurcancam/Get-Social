@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "238762077478",
+    "project_id": "etkinlikapp-4fb16",
+    "storage_bucket": "etkinlikapp-4fb16.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238762077478:android:d92b916b6b55d1719fe5e7",
+        "android_client_info": {
+          "package_name": "com.example.etkinlikapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrhu9akdu6FZXqPmQxScUoVXPGlEcf_RQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
