@@ -3,7 +3,7 @@ import 'package:etkinlikapp/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatelessWidget {
-  RegisterPage({Key? key});
+  RegisterPage({super.key});
 
   final TextEditingController nameSurnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();

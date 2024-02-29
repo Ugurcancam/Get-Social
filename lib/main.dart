@@ -1,6 +1,9 @@
 import 'package:etkinlikapp/firebase_options.dart';
+import 'package:etkinlikapp/hesapolustur.dart';
 import 'package:etkinlikapp/pages/Home/HomePage.dart';
+import 'package:etkinlikapp/pages/Login/LoginPage.dart';
 import 'package:etkinlikapp/pages/Register/RegisterPage.dart';
+import 'package:etkinlikapp/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,21 +26,23 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return MaterialApp(
+            routes: AppRoutes.routes,
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: const HomePage(),
+            home: const Yenihesap(),
           );
         } else {
           return MaterialApp(
+            routes: AppRoutes.routes,
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: RegisterPage(),
+            home: Yenihesap(),
           );
         }
       },

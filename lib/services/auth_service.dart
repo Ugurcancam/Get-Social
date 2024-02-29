@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etkinlikapp/pages/Home/HomePage.dart';
 import 'package:etkinlikapp/pages/Login/LoginPage.dart';
 import 'package:etkinlikapp/pages/VerifyEmail/verify_email.dart';
-import 'package:etkinlikapp/pages/ortasayfa.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
