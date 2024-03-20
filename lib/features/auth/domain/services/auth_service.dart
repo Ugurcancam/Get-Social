@@ -11,10 +11,14 @@ class AuthService {
   final firebaseAuth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
 
-  Future<void> signUp(BuildContext context, {required String nameSurname, required String email, required String password}) async {
+  Future<void> signUp(BuildContext context,
+      {required String nameSurname,
+      required String email,
+      required String password}) async {
     final navigator = Navigator.of(context);
     try {
-      final UserCredential userCredential = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      final UserCredential userCredential = await firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
       if (userCredential.user != null) {
         _registerUser(
           uid: userCredential.user!.uid,
@@ -28,7 +32,10 @@ class AuthService {
     }
   }
 
-  Future<void> _registerUser({required String uid, required String nameSurname, required String email}) async {
+  Future<void> _registerUser(
+      {required String uid,
+      required String nameSurname,
+      required String email}) async {
     await userCollection.doc().set({
       "uid": uid,
       "email": email,
@@ -36,12 +43,17 @@ class AuthService {
     });
   }
 
-  Future<void> signIn(BuildContext context, {required String email, required String password}) async {
+  Future<void> signIn(BuildContext context,
+      {required String email, required String password}) async {
     final navigator = Navigator.of(context);
     try {
-      final UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      final UserCredential userCredential = await firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
       if (userCredential.user != null) {
-        navigator.push(MaterialPageRoute(builder: (context) => firebaseAuth.currentUser!.emailVerified ? Navbar() : VerifyEmailPage()));
+        navigator.push(MaterialPageRoute(
+            builder: (context) => firebaseAuth.currentUser!.emailVerified
+                ? Navbar()
+                : VerifyEmailPage()));
       }
     } on FirebaseAuthException catch (error) {
       print(error.toString());
@@ -70,10 +82,12 @@ class AuthService {
   Future<void> signOut(BuildContext context) async {
     final navigator = Navigator.of(context);
     await firebaseAuth.signOut();
-    navigator.push(MaterialPageRoute(builder: (context) => LoginPage()));
+    navigator.pushNamedAndRemoveUntil('/login', (route) => false);
+    // navigator.pushAndR(MaterialPageRoute(builder: (context) => LoginPage()));
   }
 
-  Future<void> resetPassword(BuildContext context, {required String email}) async {
+  Future<void> resetPassword(BuildContext context,
+      {required String email}) async {
     final navigator = Navigator.of(context);
     try {
       await firebaseAuth.sendPasswordResetEmail(email: email);
@@ -92,7 +106,8 @@ class AuthService {
   }
 
   Future<UserModel?> getUserDetails(String email) async {
-    final snapshot = await db.collection("users").where("email", isEqualTo: email).get();
+    final snapshot =
+        await db.collection("users").where("email", isEqualTo: email).get();
     if (snapshot.docs.isNotEmpty) {
       final userData = UserModel.fromSnapshot(snapshot.docs.first);
       return userData;

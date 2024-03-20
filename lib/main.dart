@@ -26,7 +26,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+ 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         if (snapshot.hasData) {
           return MaterialApp(
             routes: AppRoutes.routes,
-            debugShowCheckedModeBanner: false,
+            debugShowCheckedModeBanner: false,  
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,

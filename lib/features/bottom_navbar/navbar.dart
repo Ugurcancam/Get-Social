@@ -1,5 +1,6 @@
 import 'package:etkinlikapp/features/event_room/screens/event_rooms.dart';
 import 'package:etkinlikapp/features/home/screens/HomePage.dart';
+import 'package:etkinlikapp/features/profile/screens/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
@@ -112,7 +113,7 @@ class _NavbarState extends State<Navbar> {
             HomePage(),
             EventRooms(),
             Center(child: Text('Style')),
-            Center(child: Text('Profile')),
+            Profile(),
           ],
         ),
       ),
