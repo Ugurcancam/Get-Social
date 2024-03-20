@@ -1,12 +1,12 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:etkinlikapp/services/auth_service.dart';
+import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
+import 'package:etkinlikapp/features/auth/domain/view_models/user_view_model.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final UserViewModel userViewModel = UserViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +90,7 @@ class LoginPage extends StatelessWidget {
                                   ),
                                 ),
                                 child: TextField(
-                                  controller: emailController,
+                                  controller: userViewModel.emailController,
                                   keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     hintText: "Email ",
@@ -107,7 +107,7 @@ class LoginPage extends StatelessWidget {
                                   ),
                                 ),
                                 child: TextField(
-                                  controller: passwordController,
+                                  controller: userViewModel.passwordController,
                                   obscureText: true,
                                   decoration: InputDecoration(
                                     hintText: "Şifre",
@@ -142,7 +142,7 @@ class LoginPage extends StatelessWidget {
                         duration: const Duration(milliseconds: 1600),
                         child: MaterialButton(
                           onPressed: () {
-                            AuthService().signIn(context, email: emailController.text, password: passwordController.text);
+                            AuthService().signIn(context, email: userViewModel.emailController.text, password: userViewModel.passwordController.text);
                           },
                           height: 50,
                           color: Colors.orange[900],

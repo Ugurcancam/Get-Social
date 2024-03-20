@@ -1,4 +1,4 @@
-import 'package:etkinlikapp/services/auth_service.dart';
+import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordPage extends StatefulWidget {

@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.4"
+  animated_custom_dropdown:
+    dependency: "direct main"
+    description:
+      name: animated_custom_dropdown
+      sha256: "9e286defa42f2e774285015d7ff29523a24260888d53f79a3635328fad5bdad7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   async:
     dependency: transitive
     description:
@@ -248,6 +256,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -264,6 +280,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.2"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -301,6 +325,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  stylish_bottom_bar:
+    dependency: "direct main"
+    description:
+      name: stylish_bottom_bar
+      sha256: "54970e4753b4273239b6dea0d1175c56beabcf39b5c65df4cbf86f1b86568d2b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   term_glyph:
     dependency: transitive
     description:

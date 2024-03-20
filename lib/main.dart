@@ -1,19 +1,27 @@
 import 'package:etkinlikapp/firebase_options.dart';
-import 'package:etkinlikapp/hesapolustur.dart';
-import 'package:etkinlikapp/pages/Home/HomePage.dart';
-import 'package:etkinlikapp/pages/Login/LoginPage.dart';
-import 'package:etkinlikapp/pages/Register/RegisterPage.dart';
-import 'package:etkinlikapp/routes.dart';
+import 'package:etkinlikapp/features/auth/screens/login.dart';
+import 'package:etkinlikapp/features/bottom_navbar/navbar.dart';
+import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
+import 'package:etkinlikapp/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        //ChangeNotifierProvider(create: (context) => RoomProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +40,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: const Yenihesap(),
+            home: Navbar(),
           );
         } else {
           return MaterialApp(
@@ -42,7 +50,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: Yenihesap(),
+            home: LoginPage(),
           );
         }
       },

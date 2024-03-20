@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:etkinlikapp/pages/Home/HomePage.dart';
-import 'package:etkinlikapp/pages/Login/LoginPage.dart';
-import 'package:etkinlikapp/pages/VerifyEmail/verify_email.dart';
+import 'package:etkinlikapp/features/auth/domain/models/user_model.dart';
+import 'package:etkinlikapp/features/auth/screens/login.dart';
+import 'package:etkinlikapp/features/bottom_navbar/navbar.dart';
+import 'package:etkinlikapp/features/auth/screens/verify_email.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,7 @@ class AuthService {
     try {
       final UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       if (userCredential.user != null) {
-        navigator.push(MaterialPageRoute(builder: (context) => firebaseAuth.currentUser!.emailVerified ? HomePage() : VerifyEmailPage()));
+        navigator.push(MaterialPageRoute(builder: (context) => firebaseAuth.currentUser!.emailVerified ? Navbar() : VerifyEmailPage()));
       }
     } on FirebaseAuthException catch (error) {
       print(error.toString());
@@ -87,6 +88,16 @@ class AuthService {
       await firebaseAuth.currentUser!.sendEmailVerification();
     } on FirebaseAuthException catch (error) {
       print(error.toString());
+    }
+  }
+
+  Future<UserModel?> getUserDetails(String email) async {
+    final snapshot = await db.collection("users").where("email", isEqualTo: email).get();
+    if (snapshot.docs.isNotEmpty) {
+      final userData = UserModel.fromSnapshot(snapshot.docs.first);
+      return userData;
+    } else {
+      return null; // veya isteğe bağlı bir hata işleme yöntemi
     }
   }
 }
