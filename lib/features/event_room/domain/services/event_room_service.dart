@@ -35,12 +35,7 @@ class EventRoomService {
       'approved_users': [
         {'uid': creatorUid, 'namesurname': namesurname},
       ],
-      'pending_approval_users': [
-        {
-          'uid': "",
-          'namesurname': "",
-        },
-      ],
+      'pending_approval_users': [],
       'category': categoryList,
     };
     await _firestore.collection('event_rooms').add(eventData);

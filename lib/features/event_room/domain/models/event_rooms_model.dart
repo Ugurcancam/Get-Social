@@ -1,14 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class EventRoomModel {
-  final String eventName;
-  final String eventDate;
-  final String creatorUid;
-  final String? docId;
-  final List<AppRovedUsers> approvedUsers;
-  final List<PendingApprovalUsers> pendingApprovalUsers;
-  final List<EventCategories> categories;
-
+final class EventRoomModel {
   EventRoomModel({
     required this.eventName,
     required this.eventDate,
@@ -21,21 +13,25 @@ class EventRoomModel {
 
   factory EventRoomModel.fromSnapshot(DocumentSnapshot snapshot, String docId) {
     return EventRoomModel(
-      eventName: snapshot['eventName'],
-      eventDate: snapshot['eventDate'],
-      creatorUid: snapshot['creatorUid'],
-      approvedUsers: (snapshot['approved_users'] as List).map((e) => AppRovedUsers.fromMap(e)).toList(),
-      pendingApprovalUsers: (snapshot['pending_approval_users'] as List).map((e) => PendingApprovalUsers.fromMap(e)).toList(),
-      categories: (snapshot['category'] as List).map((e) => EventCategories.fromMap(e)).toList(),
+      eventName: snapshot['eventName'] as String,
+      eventDate: snapshot['eventDate'] as String,
+      creatorUid: snapshot['creatorUid'] as String,
+      approvedUsers: (snapshot['approved_users'] as List).map((e) => AppRovedUsers.fromMap(e as Map<String, dynamic>)).toList(),
+      pendingApprovalUsers: (snapshot['pending_approval_users'] as List<dynamic>).map((e) => PendingApprovalUsers.fromMap(e as Map<String, dynamic>)).toList(),
+      categories: (snapshot['category'] as List<dynamic>).map((e) => EventCategories.fromMap(e as Map<String, dynamic>)).toList(),
       docId: docId,
     );
   }
+  final String eventName;
+  final String eventDate;
+  final String creatorUid;
+  final String? docId;
+  final List<AppRovedUsers> approvedUsers;
+  final List<PendingApprovalUsers> pendingApprovalUsers;
+  final List<EventCategories> categories;
 }
 
 class AppRovedUsers {
-  final String uid;
-  final String namesurname;
-
   AppRovedUsers({
     required this.uid,
     required this.namesurname,
@@ -43,16 +39,15 @@ class AppRovedUsers {
 
   factory AppRovedUsers.fromMap(Map<String, dynamic> data) {
     return AppRovedUsers(
-      uid: data['uid'],
-      namesurname: data['namesurname'],
+      uid: data['uid'] as String,
+      namesurname: data['namesurname'] as String,
     );
   }
+  final String uid;
+  final String namesurname;
 }
 
 class PendingApprovalUsers {
-  final String uid;
-  final String namesurname;
-
   PendingApprovalUsers({
     required this.uid,
     required this.namesurname,
@@ -60,22 +55,23 @@ class PendingApprovalUsers {
 
   factory PendingApprovalUsers.fromMap(Map<String, dynamic> data) {
     return PendingApprovalUsers(
-      uid: data['uid'],
-      namesurname: data['namesurname'],
+      uid: data['uid'] as String,
+      namesurname: data['namesurname'] as String,
     );
   }
+  final String uid;
+  final String namesurname;
 }
 
 class EventCategories {
-  final String name;
-
   EventCategories({
     required this.name,
   });
 
   factory EventCategories.fromMap(Map<String, dynamic> data) {
     return EventCategories(
-      name: data['name'],
+      name: data['name'] as String,
     );
   }
+  final String name;
 }

@@ -1,6 +1,6 @@
-import 'package:etkinlikapp/features/event_room/screens/event_rooms.dart';
+import 'package:etkinlikapp/features/event_room/screens/event_rooms_view.dart';
 import 'package:etkinlikapp/features/home/screens/HomePage.dart';
-import 'package:etkinlikapp/features/profile/screens/profile.dart';
+import 'package:etkinlikapp/features/profile/screens/profile_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
@@ -85,7 +85,7 @@ class _NavbarState extends State<Navbar> {
         ],
         hasNotch: true,
         fabLocation: StylishBarFabLocation.center,
-        currentIndex: selected ?? 0,
+        currentIndex: 0,
         onTap: (index) {
           controller.jumpToPage(index);
           setState(() {

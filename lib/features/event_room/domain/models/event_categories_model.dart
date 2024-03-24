@@ -9,7 +9,7 @@ class EventCategoriesModel {
 
   factory EventCategoriesModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> json) {
     return EventCategoriesModel(
-      name: json['name'],
+      name: json['name'] as String,
     );
   }
 
