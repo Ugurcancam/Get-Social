@@ -28,7 +28,7 @@ class LoginOptionButton extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               loginOptionText,
-              style: TextStyle(
+              style:const  TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),

@@ -1,3 +1,5 @@
+import 'package:etkinlikapp/features/auth/screens/login_deneme.dart';
+import 'package:etkinlikapp/features/auth/screens/register_deneme.dart';
 import 'package:etkinlikapp/features/event_room/screens/create_event_room_view.dart';
 import 'package:etkinlikapp/features/event_room/screens/event_room_details_view.dart';
 import 'package:etkinlikapp/features/auth/screens/login_view.dart';
@@ -9,8 +11,8 @@ import 'package:flutter/material.dart';
 
 class AppRoutes {
   static final Map<String, WidgetBuilder> routes = {
-    '/register': (context) => RegisterPage(),
-    '/login': (context) => LoginPage(),
+    '/register': (context) => RegisterDeneme(), 
+    '/login': (context) => LoginDeneme(),
     '/resetpassword': (context) => ResetPasswordPage(),
     '/navbar': (context) => Navbar(),
     '/createeventroom': (context) => CreateEventRoomPage(),

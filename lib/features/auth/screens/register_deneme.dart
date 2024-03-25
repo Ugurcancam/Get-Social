@@ -68,11 +68,14 @@ class _RegisterDenemeState extends State<RegisterDeneme> {
                 path: '',
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Giriş Yap',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/login'),
+                child: const Text(
+                  'Giriş Yap',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
