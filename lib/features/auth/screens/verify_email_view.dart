@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:etkinlikapp/features/home/screens/HomePage.dart';
+import 'package:etkinlikapp/features/bottom_navbar/homepage_view.dart';
 import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

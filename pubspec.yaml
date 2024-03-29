@@ -22,14 +22,18 @@ dependencies:
   cloud_firestore: ^4.14.0
   firebase_auth: ^4.16.0
   firebase_storage: ^11.6.6
-
+ 
   #animate
   animate_do: ^3.3.4
   stylish_bottom_bar: ^1.0.3
   animated_custom_dropdown: ^3.0.0
+  sliding_up_panel: ^2.0.0+1
+  google_nav_bar: ^5.0.6
 
   #state
   provider: ^6.1.2
+  bloc: ^8.1.4
+  flutter_bloc: ^8.1.5
 
   #network
   json_annotation: ^4.8.1
@@ -39,6 +43,9 @@ dependencies:
 
   #file
   file_picker: ^8.0.0+1
+
+  #font
+  google_fonts: ^6.2.0
  
 dev_dependencies:
   flutter_test:
@@ -57,10 +64,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
 

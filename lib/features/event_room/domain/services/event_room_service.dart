@@ -12,17 +12,17 @@ class EventRoomService {
     return eventRoomData;
   }
 
-  StreamSubscription<QuerySnapshot<Map<String, dynamic>>> getEventRoomsStream() {
-    final stream = _firestore.collection('event_rooms').snapshots().listen(
-      (event) {
-        event.docs.forEach((element) {
-          print(element.data());
-        });
-      },
-    );
+  // StreamSubscription<QuerySnapshot<Map<String, dynamic>>> getEventRoomsStream() {
+  //   final stream = _firestore.collection('event_rooms').snapshots().listen(
+  //     (event) {
+  //       event.docs.forEach((element) {
+  //         print(element.data());
+  //       });
+  //     },
+  //   );
 
-    return stream;
-  }
+  //   return stream;
+  // }
 
   Future<void> createRoom({required String eventName, required String eventDate, required String creatorUid, required String namesurname, required List<String> category}) async {
     // Kategorileri isimlerle eşleştirilmiş bir harita oluştur

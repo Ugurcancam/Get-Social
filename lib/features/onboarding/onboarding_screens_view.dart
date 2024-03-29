@@ -1,5 +1,4 @@
 import 'package:etkinlikapp/features/auth/screens/login_view.dart';
-import 'package:etkinlikapp/features/home/screens/HomePage.dart';
 import 'package:etkinlikapp/features/onboarding/onboarding_model.dart';
 import 'package:flutter/material.dart';
 
@@ -86,12 +85,7 @@ class _OnbordingState extends State<Onbording> {
               child: Text(currentIndex == contents.length - 1 ? "Continue" : "Next"),
               onPressed: () {
                 if (currentIndex == contents.length - 1) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => LoginPage(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/login');
                 }
                 _controller.nextPage(
                   duration: Duration(milliseconds: 100),

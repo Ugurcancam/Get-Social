@@ -1,9 +1,6 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:etkinlikapp/features/auth/screens/login_view.dart';
-import 'package:etkinlikapp/features/auth/screens/verify_email_view.dart';
-import 'package:etkinlikapp/features/bottom_navbar/navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +9,7 @@ class AuthService {
   final firebaseAuth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
 
-  Future<void> signUp(BuildContext context, {required String nameSurname, required String email, required String password}) async {
+  Future<void> signUp(BuildContext context, {required String nameSurname, required String email, required String password, required String dateOfBirth, required String province}) async {
     final navigator = Navigator.of(context);
     try {
       final userCredential = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
@@ -21,19 +18,23 @@ class AuthService {
           userId: userCredential.user!.uid,
           nameSurname: nameSurname,
           email: email,
+          dateOfBirth: dateOfBirth,
+          province: province,
         );
-        await navigator.push(MaterialPageRoute(builder: (context) => LoginPage()));
+        await navigator.pushNamed('/login');
       }
     } on FirebaseAuthException catch (error) {
       print(error.toString());
     }
   }
 
-  Future<void> _registerUser({required String userId, required String nameSurname, required String email}) async {
+  Future<void> _registerUser({required String userId, required String nameSurname, required String email, required String dateOfBirth, required String province}) async {
     await userCollection.doc(userId).set({
       'uid': userId,
       'email': email,
       'namesurname': nameSurname,
+      'dateOfBirth': dateOfBirth,
+      'province': province,
     });
   }
 
@@ -42,10 +43,10 @@ class AuthService {
     try {
       final userCredential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       if (userCredential.user != null) {
-        await navigator.push(MaterialPageRoute(builder: (context) => firebaseAuth.currentUser!.emailVerified ? const Navbar() : const VerifyEmailPage()));
+        await navigator.pushNamed(firebaseAuth.currentUser!.emailVerified ? '/homepage' : '/verifyemail');
       }
     } on FirebaseAuthException catch (error) {
-      log(error as num);
+      print(error);
     }
     // try {
     //   if (userCredential.user != null) {
@@ -79,9 +80,9 @@ class AuthService {
     final navigator = Navigator.of(context);
     try {
       await firebaseAuth.sendPasswordResetEmail(email: email);
-      await navigator.push(MaterialPageRoute(builder: (context) => LoginPage()));
+      await navigator.pushNamed('/login');
     } on FirebaseAuthException catch (error) {
-      log(error as num);
+      print(error);
     }
   }
 
@@ -89,7 +90,7 @@ class AuthService {
     try {
       await firebaseAuth.currentUser!.sendEmailVerification();
     } on FirebaseAuthException catch (error) {
-      log(error as num);
+      print(error);
     }
   }
 }

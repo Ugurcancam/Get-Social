@@ -2,15 +2,19 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
+@immutable
 class UserModel {
   final String email;
   final String namesurname;
+  final String province;
   final String uid;
 
-  UserModel({
+  const UserModel({
     required this.email,
     required this.namesurname,
+    required this.province,
     required this.uid,
   });
 
@@ -18,6 +22,7 @@ class UserModel {
     return <String, dynamic>{
       'email': email,
       'namesurname': namesurname,
+      'province': province,
       'uid': uid,
     };
   }
@@ -26,6 +31,7 @@ class UserModel {
     return UserModel(
       email: map['email'] as String,
       namesurname: map['namesurname'] as String,
+      province: map['province'] as String,
       uid: map['uid'] as String,
     );
   }

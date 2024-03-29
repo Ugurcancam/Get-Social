@@ -1,14 +1,9 @@
 import 'package:etkinlikapp/features/auth/widget/login_option_buttons.dart';
 import 'package:flutter/material.dart';
 
-class RegisterDeneme extends StatefulWidget {
-  RegisterDeneme({super.key});
+class SignInOptionsView extends StatelessWidget {
+  const SignInOptionsView({super.key});
 
-  @override
-  State<RegisterDeneme> createState() => _RegisterDenemeState();
-}
-
-class _RegisterDenemeState extends State<RegisterDeneme> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +11,7 @@ class _RegisterDenemeState extends State<RegisterDeneme> {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/images/register_background.jpg',
+            'assets/images/signinoptions_background.jpg',
             fit: BoxFit.cover,
           ),
           Column(

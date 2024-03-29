@@ -1,13 +1,8 @@
-import 'package:etkinlikapp/features/auth/screens/login_deneme.dart';
-import 'package:etkinlikapp/features/auth/screens/register_deneme.dart';
-import 'package:etkinlikapp/features/auth/screens/register_view.dart';
-import 'package:etkinlikapp/features/event_room/screens/pick_file_view.dart';
-import 'package:etkinlikapp/features/onboarding/onboarding_screens_view.dart';
-import 'package:etkinlikapp/firebase_options.dart';
-import 'package:etkinlikapp/features/auth/screens/login_view.dart';
-import 'package:etkinlikapp/features/bottom_navbar/navbar.dart';
-import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
 import 'package:etkinlikapp/core/routes/routes.dart';
+import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
+import 'package:etkinlikapp/features/auth/screens/sign_in_options_view.dart';
+import 'package:etkinlikapp/features/bottom_navbar/homepage_view.dart';
+import 'package:etkinlikapp/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +21,7 @@ Future<void> main() async {
       ],
       child: MyApp(),
     ),
-  );                 
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -45,7 +40,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: Navbar(),
+            home: HomePage(),
           );
         } else {
           return MaterialApp(
@@ -55,7 +50,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: RegisterDeneme(), 
+            home: SignInOptionsView(),
           );
         }
       },

@@ -1,12 +1,8 @@
 import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class ResetPasswordPage extends StatefulWidget {
-  @override
-  _ResetPasswordPageState createState() => _ResetPasswordPageState();
-}
-
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class ResetPasswordView extends StatelessWidget {
+  ResetPasswordView({super.key});
   final TextEditingController emailController = TextEditingController();
 
   @override
