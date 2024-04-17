@@ -1,6 +1,7 @@
 import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
 import 'package:etkinlikapp/features/auth/domain/view_models/login_view_model.dart';
 import 'package:etkinlikapp/features/auth/screens/login_view_mixin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 part 'login_sub_view.dart';

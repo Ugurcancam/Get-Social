@@ -1,8 +1,11 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:etkinlikapp/core/services/locale_data_service.dart';
+import 'package:etkinlikapp/features/auth/domain/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final userCollection = FirebaseFirestore.instance.collection('users');
@@ -92,5 +95,12 @@ class AuthService {
     } on FirebaseAuthException catch (error) {
       print(error);
     }
+  }
+
+  // Fetch user details from Firestore which email is equal to the email of the current user
+  Future<UserModel> getUserDetails(String email) async {
+    final snapshot = await db.collection('users').where('email', isEqualTo: email).get();
+    final userData = snapshot.docs.map(UserModel.fromSnapshot).single;
+    return userData;
   }
 }

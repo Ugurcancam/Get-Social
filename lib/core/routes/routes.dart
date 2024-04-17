@@ -3,7 +3,7 @@ import 'package:etkinlikapp/features/auth/screens/register_view.dart';
 import 'package:etkinlikapp/features/auth/screens/reset_password_view.dart';
 import 'package:etkinlikapp/features/auth/screens/sign_in_options_view.dart';
 import 'package:etkinlikapp/features/auth/screens/verify_email_view.dart';
-import 'package:etkinlikapp/features/bottom_navbar/homepage_view.dart';
+import 'package:etkinlikapp/features/bottom_navbar/bottom_navbar.dart';
 import 'package:etkinlikapp/features/event_room/screens/create_event_room_view.dart';
 import 'package:etkinlikapp/features/event_room/screens/event_room_details_view.dart';
 import 'package:etkinlikapp/features/profile/screens/profile_detail_view.dart';
@@ -19,7 +19,7 @@ class AppRoutes {
     '/forgotpassword': (context) => ResetPasswordView(),
 
     // Home
-    '/homepage': (context) => HomePage(),
+    '/homepage': (context) => BottomNavbar(),
 
     // Event Room
     '/createeventroom': (context) => CreateEventRoomPage(),

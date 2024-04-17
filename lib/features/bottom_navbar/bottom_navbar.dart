@@ -1,22 +1,23 @@
+import 'package:etkinlikapp/core/constants/constants.dart';
 import 'package:etkinlikapp/features/categories/screens/category_view.dart';
 import 'package:etkinlikapp/features/event_room/screens/event_rooms_view.dart';
-import 'package:etkinlikapp/features/home/screens/HomePage.dart';
+import 'package:etkinlikapp/features/home/screens/homepage_view.dart';
 import 'package:etkinlikapp/features/profile/screens/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class BottomNavbar extends StatefulWidget {
+  const BottomNavbar({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<BottomNavbar> createState() => _BottomNavbarState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _BottomNavbarState extends State<BottomNavbar> {
   int _selectedIndex = 0; // Track the selected index
 
   final List<Widget> _pages = [
-    IlkSayfa(),
+    const HomePage(),
     const CategoryView(),
     const EventRooms(),
     const Profile(), // Replace with your Profile page widget
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Color.fromRGBO(26, 30, 42, 1),
           boxShadow: [
             BoxShadow(
               blurRadius: 20,
@@ -38,10 +39,11 @@ class _HomePageState extends State<HomePage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: GNav(
-            backgroundColor: Colors.white,
-            color: Color.fromRGBO(120, 177, 182, 1),
-            activeColor: Colors.white,
-            tabBackgroundColor: Color.fromRGBO(120, 177, 182, 1),
+            backgroundColor: Color.fromRGBO(26, 30, 42, 1),
+            color: whiteColor,
+            activeColor: primaryColor,
+
+            tabBackgroundColor: Color.fromRGBO(58, 62, 73, 1),
             padding: const EdgeInsets.all(16),
             gap: 1,
             tabs: const [

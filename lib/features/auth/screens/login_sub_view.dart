@@ -204,9 +204,9 @@ class LoginButtonField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (formKey.currentState!.validate()) {
-          AuthService().signIn(context, email: valueByEmailController, password: valueByPasswordController);
+          await AuthService().signIn(context, email: valueByEmailController, password: valueByPasswordController);
         }
       },
       child: Container(

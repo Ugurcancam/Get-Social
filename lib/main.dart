@@ -1,7 +1,9 @@
 import 'package:etkinlikapp/core/routes/routes.dart';
+import 'package:etkinlikapp/core/services/locale_data_service.dart';
+import 'package:etkinlikapp/features/auth/domain/models/user_model.dart';
 import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
 import 'package:etkinlikapp/features/auth/screens/sign_in_options_view.dart';
-import 'package:etkinlikapp/features/bottom_navbar/homepage_view.dart';
+import 'package:etkinlikapp/features/bottom_navbar/bottom_navbar.dart';
 import 'package:etkinlikapp/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,21 +35,21 @@ class MyApp extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          LocalDataService().saveUserEmail(snapshot.data!.email!);
+          LocalDataService().saveUserId(snapshot.data!.uid);
           return MaterialApp(
             routes: AppRoutes.routes,
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: HomePage(),
+            home: BottomNavbar(),
           );
         } else {
           return MaterialApp(
             routes: AppRoutes.routes,
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
             home: SignInOptionsView(),

@@ -30,6 +30,9 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   google_nav_bar: ^5.0.6
 
+  #locale data
+  shared_preferences: ^2.2.3
+
   #state
   provider: ^6.1.2
   bloc: ^8.1.4
@@ -37,6 +40,7 @@ dependencies:
 
   #network
   json_annotation: ^4.8.1
+  dio: ^5.4.2+1
 
   #analysis
   very_good_analysis: ^5.1.0
@@ -46,6 +50,10 @@ dependencies:
 
   #font
   google_fonts: ^6.2.0
+
+  #maps
+  google_maps_flutter: ^2.5.3
+  location: ^6.0.1
  
 dev_dependencies:
   flutter_test:
@@ -69,6 +77,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/fonts/
+    - assets/json/
 
 
   # fonts:

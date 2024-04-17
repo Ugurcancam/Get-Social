@@ -11,16 +11,16 @@ class UserProvider extends ChangeNotifier {
 
   void setUid(String uid) {
     _uid = uid;
-    //notifyListeners();
+    notifyListeners();
   }
 
   void setNameSurname(String namesurname) {
     _namesurname = namesurname;
-    //notifyListeners();
+    notifyListeners();
   }
 
   void setEmail(String email) {
     _email = email;
-    //notifyListeners();
+    notifyListeners();
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:etkinlikapp/features/bottom_navbar/homepage_view.dart';
+import 'package:etkinlikapp/features/bottom_navbar/bottom_navbar.dart';
 import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     await FirebaseAuth.instance.currentUser!.reload();
     bool verified = FirebaseAuth.instance.currentUser!.emailVerified;
     if (verified) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => BottomNavbar()));
     }
   }
 

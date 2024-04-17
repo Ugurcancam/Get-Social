@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class RoomViewModel {
+class CreateEventRoomViewModel {
   TextEditingController eventNameController = TextEditingController();
   TextEditingController eventTimeController = TextEditingController();
   TextEditingController eventCategoryController = TextEditingController();

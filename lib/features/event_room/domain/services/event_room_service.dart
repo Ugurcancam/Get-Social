@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
+import 'package:etkinlikapp/core/constants/constants.dart';
 import 'package:etkinlikapp/features/event_room/domain/models/event_rooms_model.dart';
 
 class EventRoomService {
@@ -24,7 +26,7 @@ class EventRoomService {
   //   return stream;
   // }
 
-  Future<void> createRoom({required String eventName, required String eventDate, required String creatorUid, required String namesurname, required List<String> category}) async {
+  Future<void> createRoom({required String eventName, required String eventDate, required String creatorUid, required String namesurname, required String coordinate, required String province, required String district, required String addressDetail, required List<String> category}) async {
     // Kategorileri isimlerle eşleştirilmiş bir harita oluştur
     List<Map<String, String>> categoryList = category.map((categoryName) => {'name': categoryName}).toList();
 
@@ -37,6 +39,10 @@ class EventRoomService {
       ],
       'pending_approval_users': [],
       'category': categoryList,
+      'coordinate': coordinate,
+      'province': province,
+      'district': district,
+      'address_detail': addressDetail,
     };
     await _firestore.collection('event_rooms').add(eventData);
   }
