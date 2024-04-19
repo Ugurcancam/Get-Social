@@ -1,6 +1,10 @@
 part of 'create_event_room_view.dart';
 
 mixin CreateEventRoomPageMixin on State<CreateEventRoomPage> {
+  // Sayfa boyutlarını almak için
+  double get width => MediaQuery.of(context).size.width;
+  double get height => MediaQuery.of(context).size.height;
+  late CreateRoomBloc _createRoomBloc;
   @override
   void initState() {
     super.initState();
@@ -11,6 +15,34 @@ mixin CreateEventRoomPageMixin on State<CreateEventRoomPage> {
         _currentP = location;
       });
     }).getLocationUpdates();
+    _createRoomBloc = CreateRoomBloc();
+    _createRoomBloc.add(FetchDataEvent());
+  }
+
+  void _showDatePicker() {
+    showDatePicker(
+      context: context,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 365)),
+      initialDate: DateTime.now(),
+    ).then((value) {
+      if (value != null) {
+        final formattedDate = DateFormat('dd/MM/yyyy').format(value);
+        _roomViewModel.eventDateController.text = formattedDate;
+      }
+    });
+  }
+
+  void _showTimePicker() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      if (value != null) {
+        final formattedTime = value.format(context);
+        _roomViewModel.eventTimeController.text = formattedTime;
+      }
+    });
   }
 
   //Location

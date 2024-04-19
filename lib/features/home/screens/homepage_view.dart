@@ -4,7 +4,6 @@ import 'package:etkinlikapp/core/widgets/custom_sizedbox_height.dart';
 import 'package:etkinlikapp/core/widgets/custom_sizedbox_width.dart';
 import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
 import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

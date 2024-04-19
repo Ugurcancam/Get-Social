@@ -6,7 +6,7 @@ class EventCategoriesService {
 
   Future<List<EventCategoriesModel>> getEventCategories() async {
     final snapshot = await _firestore.collection('event_categories').get();
-    final eventRoomData = snapshot.docs.map((doc) => EventCategoriesModel.fromSnapshot(doc)).toList();
+    final eventRoomData = snapshot.docs.map(EventCategoriesModel.fromSnapshot).toList();
     return eventRoomData;
   }
 }

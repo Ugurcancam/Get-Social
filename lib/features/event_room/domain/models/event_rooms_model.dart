@@ -1,20 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final class EventRoomModel {
+  final String eventName;
+  final String eventDate;
+  final String eventDetail;
+  final String creatorUid;
+  final String addressDetail;
+  final String coordinate;
+  final String district;
+  final String province;
+  final String? docId;
+  final List<AppRovedUsers> approvedUsers;
+  final List<PendingApprovalUsers> pendingApprovalUsers;
+  final List<EventCategories> categories;
+
   EventRoomModel({
     required this.eventName,
     required this.eventDate,
+    required this.eventDetail,
     required this.creatorUid,
     required this.approvedUsers,
     required this.pendingApprovalUsers,
     required this.docId,
     required this.categories,
+    required this.addressDetail,
+    required this.coordinate,
+    required this.district,
+    required this.province,
   });
 
   factory EventRoomModel.fromSnapshot(DocumentSnapshot snapshot, String docId) {
     return EventRoomModel(
       eventName: snapshot['eventName'] as String,
       eventDate: snapshot['eventDate'] as String,
+      eventDetail: snapshot['eventDetail'] as String,
+      addressDetail: snapshot['address_detail'] as String,
+      coordinate: snapshot['coordinate'] as String,
+      district: snapshot['district'] as String,
+      province: snapshot['province'] as String,
       creatorUid: snapshot['creatorUid'] as String,
       approvedUsers: (snapshot['approved_users'] as List).map((e) => AppRovedUsers.fromMap(e as Map<String, dynamic>)).toList(),
       pendingApprovalUsers: (snapshot['pending_approval_users'] as List<dynamic>).map((e) => PendingApprovalUsers.fromMap(e as Map<String, dynamic>)).toList(),
@@ -22,13 +45,6 @@ final class EventRoomModel {
       docId: docId,
     );
   }
-  final String eventName;
-  final String eventDate;
-  final String creatorUid;
-  final String? docId;
-  final List<AppRovedUsers> approvedUsers;
-  final List<PendingApprovalUsers> pendingApprovalUsers;
-  final List<EventCategories> categories;
 }
 
 class AppRovedUsers {

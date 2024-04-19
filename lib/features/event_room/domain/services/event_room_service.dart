@@ -26,13 +26,15 @@ class EventRoomService {
   //   return stream;
   // }
 
-  Future<void> createRoom({required String eventName, required String eventDate, required String creatorUid, required String namesurname, required String coordinate, required String province, required String district, required String addressDetail, required List<String> category}) async {
+  Future<void> createRoom({required String eventName, required String eventDetail, required String eventDate, required String eventTime, required String creatorUid, required String namesurname, required String coordinate, required String province, required String district, required String addressDetail, required List<String> category}) async {
     // Kategorileri isimlerle eşleştirilmiş bir harita oluştur
     List<Map<String, String>> categoryList = category.map((categoryName) => {'name': categoryName}).toList();
 
     final eventData = {
       'eventName': eventName,
+      'eventDetail': eventDetail,
       'eventDate': eventDate,
+      'eventTime': eventTime,
       'creatorUid': creatorUid,
       'approved_users': [
         {'uid': creatorUid, 'namesurname': namesurname},

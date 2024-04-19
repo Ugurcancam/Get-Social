@@ -9,8 +9,13 @@ import 'package:etkinlikapp/features/event_room/domain/services/event_room_servi
 import 'package:etkinlikapp/core/services/location_service.dart';
 import 'package:etkinlikapp/features/event_room/domain/view_models/create_event_room_view_model.dart';
 import 'package:etkinlikapp/features/event_room/screens/create_event_room_subview.dart';
+import 'package:etkinlikapp/features/event_room/state/bloc/create_room_bloc.dart';
+import 'package:etkinlikapp/features/event_room/widgets/create_room_custom_textfield.dart';
+import 'package:etkinlikapp/features/event_room/widgets/create_room_custom_textfield_with_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
@@ -31,21 +36,33 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
     final uid = Provider.of<UserProvider>(context).uid;
     final nameSurname = Provider.of<UserProvider>(context).namesurname;
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: const Text('Create Event Room'),
       ),
-      body: _currentP == null
-          ? const Center(
+      body: BlocBuilder<CreateRoomBloc, CreateRoomState>(
+        bloc: _createRoomBloc,
+        builder: (context, state) {
+          if (state is CreateRoomLoading) {
+            return const Center(
               child: CircularProgressIndicator(),
-            )
-          : SingleChildScrollView(
-              child: FutureBuilder(
-                future: _eventCategoriesService.getEventCategories(),
-                builder: (context, snapshot) {
-                  final eventCategoryData = snapshot.data!;
-                  return Column(
-                    children: [
+            );
+          } else if (state is CreateRoomFailure) {
+            return Center(
+              child: Text(state.error),
+            );
+          } else if (state is CreateRoomSuccess) {
+            final eventCategory = state.eventCategoriesData;
+            final provinces = state.provinces;
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    if (_currentP == null)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    else
                       Container(
                         height: 250,
                         child: GoogleMap(
@@ -55,7 +72,7 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
                           ),
                           markers: {
                             Marker(
-                              markerId: MarkerId('_currentLocation'),
+                              markerId: const MarkerId('_currentLocation'),
                               position: _currentP!,
                             ),
                           },
@@ -71,109 +88,68 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            CustomDropdown<String>.multiSelect(
-                              hintText: 'Kategori Seçiniz',
-                              items: eventCategoryData.map((e) => e.name).toList(),
-                              onListChanged: (value) {
-                                selectedCategoryList = value;
-                              },
-                            ),
-                            TextField(
-                              controller: _roomViewModel.eventNameController,
-                              decoration: const InputDecoration(
-                                labelText: 'Event Adı',
-                              ),
-                            ),
-                            const SizedBox(height: 16.0),
-                            TextField(
-                              controller: _roomViewModel.eventTimeController,
-                              decoration: const InputDecoration(
-                                labelText: 'Event Zamanı',
-                              ),
-                            ),
-                            const SizedBox(height: 16.0),
-                            TextFormField(
-                              controller: adresAciklamasiController,
-                              decoration: InputDecoration(
-                                hintText: 'Adres Açıklaması',
-                                hintStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 0.30,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 0.98,
-                                    color: Colors.black.withOpacity(0.20000000298023224),
-                                  ),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(color: Colors.red),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(color: Colors.red),
-                                ),
-                                errorStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return "Bu alan boş bırakılamaz!";
-                                }
-
-                                return null;
-                              },
-                            ),
-                          ],
+                    Container(
+                      width: width,
+                      child: CustomDropdown<String>.multiSelect(
+                        decoration: const CustomDropdownDecoration(
+                          closedFillColor: Color.fromRGBO(49, 62, 85, 0.78),
+                          hintStyle: TextStyle(color: Colors.white),
+                          closedSuffixIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
                         ),
+                        hintText: 'Kategori Seçiniz',
+                        items: eventCategory.map((e) => e.name).toList(),
+                        onListChanged: (value) {
+                          selectedCategoryList = value;
+                        },
                       ),
-                      Container(
-                        height: 150,
-                        child: FutureBuilder(
-                          future: IlIlceService().getIller(),
-                          builder: (context, snapshot) {
-                            final cities = snapshot.data!;
-                            return Column(
-                              children: [
-                                CustomDropdown<String>(
-                                  hintText: 'Şehir Seçiniz',
-                                  items: cities.toList(),
-                                  onChanged: (province) async {
-                                    final ilceler = await IlIlceService().getIlceler(province);
-                                    setState(() {
-                                      ilcelerr = ilceler;
-                                      getir = true;
-                                      selectedProvince = province;
-                                    });
-                                  },
-                                ),
-                                const HeightBox(height: 20),
-                                if (ilcelerr.isNotEmpty)
-                                  CustomDropdown<String>(
-                                    hintText: 'İlçe Seçiniz',
-                                    items: ilcelerr.toList(),
-                                    onChanged: (district) {
-                                      setState(() {
-                                        selectedDistrict = district;
-                                      });
-                                    },
-                                  )
-                              ],
-                            );
-                          },
-                        ),
+                    ),
+                    const HeightBox(height: 13),
+                    CustomTextFormField(width: width, height: height, hintText: 'Event Adı', controller: _roomViewModel.eventNameController),
+                    const HeightBox(height: 13),
+                    CustomTextFieldWithIcon(width: width, height: height, hintText: 'Event Tarihi', controller: _roomViewModel.eventDateController, icon: Icons.date_range, onPressed: _showDatePicker),
+                    const SizedBox(height: 16),
+                    CustomTextFieldWithIcon(width: width, height: height, hintText: 'Event Saati', controller: _roomViewModel.eventTimeController, icon: Icons.access_time, onPressed: _showTimePicker),
+                    const SizedBox(height: 16),
+                    CustomTextFormField(width: width, height: height, hintText: 'Adres Detayı', controller: adresAciklamasiController),
+                    const SizedBox(height: 16),
+                    CustomTextFormField(width: width, height: height, hintText: 'Event Açıklaması', controller: _roomViewModel.eventDescriptionController),
+                    const HeightBox(height: 25),
+                    CustomDropdown<String>(
+                      decoration: const CustomDropdownDecoration(
+                        closedFillColor: Color.fromRGBO(49, 62, 85, 0.78),
                       ),
-                      ElevatedButton(
+                      hintText: 'Şehir Seçiniz',
+                      items: provinces.toList(),
+                      onChanged: (province) async {
+                        final ilceler = await ProvinceService().getDisctricts(province);
+                        setState(() {
+                          ilcelerr = ilceler;
+                          getir = true;
+                          selectedProvince = province;
+                        });
+                      },
+                    ),
+                    const HeightBox(height: 20),
+                    if (ilcelerr.isNotEmpty)
+                      CustomDropdown<String>(
+                        hintText: 'İlçe Seçiniz',
+                        items: ilcelerr.toList(),
+                        onChanged: (district) {
+                          setState(() {
+                            selectedDistrict = district;
+                          });
+                        },
+                      ),
+                    Container(
+                      width: width,
+                      height: height * 0.08,
+                      child: ElevatedButton(
                         onPressed: () async {
                           await _eventRoomService.createRoom(
                             eventName: _roomViewModel.eventNameController.text,
-                            eventDate: _roomViewModel.eventTimeController.text,
+                            eventDetail: _roomViewModel.eventDescriptionController.text,
+                            eventDate: _roomViewModel.eventDateController.text,
+                            eventTime: _roomViewModel.eventTimeController.text,
                             creatorUid: uid!,
                             namesurname: nameSurname!,
                             category: selectedCategoryList!,
@@ -182,14 +158,119 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
                             district: selectedDistrict,
                             addressDetail: adresAciklamasiController.text,
                           );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Room created successfully'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
                         },
+                        //make a feedback if the room is created
+
                         child: const Text('Odayı Oluştur'),
                       ),
-                    ],
-                  );
-                },
+                    ),
+                  ],
+                ),
               ),
-            ),
+            );
+          }
+          return Container();
+        },
+      ),
     );
   }
 }
+
+// class CustomTextFieldWithIcon extends StatelessWidget {
+//   const CustomTextFieldWithIcon({
+//     super.key,
+//     required this.width,
+//     required this.height,
+//     required CreateEventRoomViewModel roomViewModel,
+//   }) : _roomViewModel = roomViewModel;
+
+//   final double width;
+//   final double height;
+//   final CreateEventRoomViewModel _roomViewModel;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: width,
+//       height: height * 0.08,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(16),
+//         color: const Color.fromRGBO(49, 62, 85, 0.78),
+//       ),
+//       child: Center(
+//         child: Row(
+//           children: [
+//             Expanded(
+//               flex: 3,
+//               child: TextFormField(
+//                 style: TextStyle(color: Colors.white),
+//                 controller: _roomViewModel.eventTimeController,
+//                 decoration: const InputDecoration(
+//                   hintText: 'Event Saati',
+//                   hintStyle: TextStyle(
+//                     color: Colors.white,
+//                   ),
+//                   border: InputBorder.none,
+//                   contentPadding: EdgeInsets.only(left: 16),
+//                 ),
+//               ),
+//             ),
+//             const Spacer(),
+//             Expanded(
+//               child: IconButton(
+//                 onPressed:() {
+                  
+//                 },
+//                 icon: const Icon(Icons.access_time_rounded, color: Colors.white),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class CustomTextFormField extends StatelessWidget {
+//   const CustomTextFormField({
+//     super.key,
+//     required this.width,
+//     required this.height,
+//     required CreateEventRoomViewModel roomViewModel,
+//   }) : _roomViewModel = roomViewModel;
+
+//   final double width;
+//   final double height;
+//   final CreateEventRoomViewModel _roomViewModel;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: width,
+//       height: height * 0.08,
+//       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: const Color.fromRGBO(49, 62, 85, 0.78)),
+//       child: Center(
+//         child: TextFormField(
+//           cursorColor: Colors.grey,
+//           style: TextStyle(color: Colors.white),
+//           keyboardType: TextInputType.emailAddress,
+//           controller: _roomViewModel.eventNameController,
+//           decoration: const InputDecoration(
+//             hintText: 'Event Adı',
+//             hintStyle: TextStyle(
+//               color: Colors.white,
+//             ),
+//             border: InputBorder.none,
+//             contentPadding: EdgeInsets.only(left: 16),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
