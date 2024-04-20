@@ -1,15 +1,13 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
-import 'package:etkinlikapp/core/constants/constants.dart';
 import 'package:etkinlikapp/features/event_room/domain/models/event_rooms_model.dart';
 
 class EventRoomService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<List<EventRoomModel>> getEventRooms() async {
-    final snapshot = await _firestore.collection("event_rooms").get();
+    final snapshot = await _firestore.collection('event_rooms').get();
     final eventRoomData = snapshot.docs.map((doc) => EventRoomModel.fromSnapshot(doc, doc.id)).toList();
     return eventRoomData;
   }

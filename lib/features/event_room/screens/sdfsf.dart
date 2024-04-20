@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:etkinlikapp/core/constants/constants.dart';
 import 'package:etkinlikapp/core/widgets/custom_sizedbox_height.dart';
+import 'package:etkinlikapp/features/event_room/domain/models/event_rooms_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EventDetail extends StatefulWidget {
-  const EventDetail({super.key});
+  final EventRoomModel event;
+  const EventDetail({required this.event, super.key});
 
   @override
   State<EventDetail> createState() => _EventDetailState();
@@ -28,7 +30,7 @@ class _EventDetailState extends State<EventDetail> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 15, 15, 15),
       appBar: AppBar(
-        title: Text('Event Detail'),
+        title: Text('Etkinlik Detayları'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -42,12 +44,12 @@ class _EventDetailState extends State<EventDetail> {
                   'assets/images/login_background.jpg',
                 ),
               ),
-              HeightBox(height: 25),
+              const HeightBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Event Name',
+                    widget.event.eventName,
                     style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w500),
                   ),
                   Container(
@@ -59,7 +61,7 @@ class _EventDetailState extends State<EventDetail> {
                     width: 125,
                     child: Center(
                       child: Text(
-                        '25 Katılımcı',
+                        widget.event.approvedUsers.length.toString() + ' Katılımcı',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
@@ -73,7 +75,7 @@ class _EventDetailState extends State<EventDetail> {
               ),
               HeightBox(height: 25),
               Text(
-                'selam nasılsın iyiyim sen ' * 10,
+                widget.event.eventDetail,
                 style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 1),
               ),
               HeightBox(height: 25),
@@ -92,14 +94,14 @@ class _EventDetailState extends State<EventDetail> {
                   ),
                 ),
                 title: Text(
-                  'Türkiye, İstanbul',
+                  widget.event.province + ' / ' + widget.event.district,
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 14,
                   ),
                 ),
                 subtitle: Text(
-                  'Kadıköy Bulvarı ' * 10,
+                  widget.event.addressDetail,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -121,14 +123,14 @@ class _EventDetailState extends State<EventDetail> {
                   ),
                 ),
                 title: Text(
-                  'Tarih: 23.09.2023',
+                  'Tarih: ' + widget.event.eventDate,
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 14,
                   ),
                 ),
                 subtitle: Text(
-                  'Saat: 14:00 - 16:00',
+                  'Saat: ' + widget.event.eventTime,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -150,8 +152,6 @@ class _EventDetailState extends State<EventDetail> {
                   borderRadius: BorderRadius.circular(25),
                   child: InteractiveViewer(
                     child: GoogleMap(
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: true,
                       onMapCreated: (GoogleMapController controller) {
                         controller.setMapStyle(mapTheme);
                         googleMapController.complete(controller);

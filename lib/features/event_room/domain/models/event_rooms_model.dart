@@ -4,6 +4,7 @@ final class EventRoomModel {
   final String eventName;
   final String eventDate;
   final String eventDetail;
+  final String eventTime;
   final String creatorUid;
   final String addressDetail;
   final String coordinate;
@@ -17,6 +18,7 @@ final class EventRoomModel {
   EventRoomModel({
     required this.eventName,
     required this.eventDate,
+    required this.eventTime,
     required this.eventDetail,
     required this.creatorUid,
     required this.approvedUsers,
@@ -33,6 +35,7 @@ final class EventRoomModel {
     return EventRoomModel(
       eventName: snapshot['eventName'] as String,
       eventDate: snapshot['eventDate'] as String,
+      eventTime: snapshot['eventTime'] as String,
       eventDetail: snapshot['eventDetail'] as String,
       addressDetail: snapshot['address_detail'] as String,
       coordinate: snapshot['coordinate'] as String,

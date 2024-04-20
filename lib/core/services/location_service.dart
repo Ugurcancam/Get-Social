@@ -1,42 +1,37 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:etkinlikapp/core/constants/constants.dart';
 
 class LocationService {
-  LatLng? _currentP;
-  final Location _locationController;
-  final void Function(LatLng)? onLocationChanged;
+  // For getting the place details which clicked on the map
+  Future<void> getPlaceDetails(double lat, double long, void Function(String address) getAddressCallback) async {
+    const apiKey = google_api_key;
+    const baseURL = 'https://maps.googleapis.com/maps/api/geocode/json';
+    final request = '$baseURL?latlng=$lat,$long&key=$apiKey';
 
-  LocationService(this._currentP, this._locationController, {this.onLocationChanged});
+    try {
+      final response = await Dio().get<Map<String, dynamic>>(request);
 
-  Future<void> getLocationUpdates() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+      // Accessing the first element of the list
+      if (response.statusCode == HttpStatus.ok) {
+        final data = response.data!;
+        final results = data['results'] as List<dynamic>; // Accessing as List
 
-    _serviceEnabled = await _locationController.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _locationController.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
+        if (results.isNotEmpty) {
+          // Accessing the first element of the list
+          final placeDetails = results[0] as Map<String, dynamic>;
+          final destinationPlaceFullAddress = placeDetails['formatted_address'] as String;
 
-    _permissionGranted = await _locationController.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _locationController.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    _locationController.onLocationChanged.listen((LocationData currentLocation) {
-      if (_currentP == null) {
-        if (currentLocation.latitude != null && currentLocation.longitude != null) {
-          _currentP = LatLng(currentLocation.latitude!, currentLocation.longitude!);
-          if (onLocationChanged != null) {
-            onLocationChanged!(_currentP!);
-          }
+          //We are sending the address to the callback function, then set it to TextEditingController
+          getAddressCallback(destinationPlaceFullAddress);
         }
+        throw Exception('No place');
+      } else {
+        throw Exception('Failed to get place details');
       }
-    });
+    } catch (e) {
+      throw Exception('Error fetching place details: $e');
+    }
   }
 }

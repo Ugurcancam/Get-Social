@@ -18,7 +18,11 @@ const appBarColor = Color.fromRGBO(94, 61, 130, 1);
 const appBar2Color = Color.fromRGBO(251, 244, 253, 1);
 
 // Button Colors
-const buttonColor = Color.fromRGBO(49, 44, 76, 1);
+const buttonColor = Color.fromRGBO(26, 30, 42, 1);
+const buttonColor2 = Color.fromRGBO(43, 55, 61, 1);
 
 // Google Api Key
 const google_api_key = 'AIzaSyCAx8GwjwEIblR54jbljhqVjkTd86Tj2ks';
+
+// Navigator Key
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

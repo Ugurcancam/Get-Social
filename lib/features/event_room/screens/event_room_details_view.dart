@@ -85,7 +85,8 @@ class EventRoomDetail extends StatelessWidget {
                     ),
                   ],
                 );
-              })
+              },
+            )
           : Column(
               children: [
                 Container(

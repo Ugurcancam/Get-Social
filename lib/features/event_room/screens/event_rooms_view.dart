@@ -1,5 +1,6 @@
 import 'package:etkinlikapp/features/event_room/domain/services/event_room_service.dart';
-import 'package:etkinlikapp/features/event_room/screens/event_room_details_view.dart';
+import 'package:etkinlikapp/features/event_room/screens/sdfsf.dart';
+import 'package:etkinlikapp/features/event_room/screens/yeni.dart';
 import 'package:flutter/material.dart';
 
 class EventRooms extends StatelessWidget {
@@ -34,8 +35,8 @@ class EventRooms extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => EventRoomDetail(eventRoomData: eventRoom),
+                      MaterialPageRoute<EventDetail>(
+                        builder: (context) => EventRoomDetail(event: eventRoom),
                       ),
                     );
                   },
