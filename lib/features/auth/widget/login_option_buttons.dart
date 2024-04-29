@@ -20,15 +20,10 @@ class LoginOptionButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/images/$imagePath.png',
-              width: 24,
-              height: 24,
-            ),
             const SizedBox(width: 8),
             Text(
               loginOptionText,
-              style:const  TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),

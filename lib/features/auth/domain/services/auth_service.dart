@@ -72,7 +72,7 @@ class AuthService {
     // }
   }
 
-  Future<void> Logout(BuildContext context) async {
+  Future<void> logOut(BuildContext context) async {
     final navigator = Navigator.of(context);
     await firebaseAuth.signOut();
     await navigator.pushNamedAndRemoveUntil('/login', (route) => false);

@@ -23,7 +23,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> with VerifyEmailMixin
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () async {
-            await _authService.Logout(context);
+            await _authService.logOut(context);
           },
         ),
       ),

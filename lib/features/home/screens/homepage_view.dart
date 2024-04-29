@@ -6,6 +6,7 @@ import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
 import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:codegen/codegen.dart';
 
 part 'homepage_mixin.dart';
 

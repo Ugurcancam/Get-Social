@@ -66,11 +66,14 @@ dependencies:
   intl: ^0.19.0
   equatable: ^2.0.5
  
+  codegen:
+    path: module/codegen
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.0 
 
   #network
   json_serializable: ^6.7.1

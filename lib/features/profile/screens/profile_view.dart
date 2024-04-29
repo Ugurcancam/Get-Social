@@ -7,48 +7,85 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Icon iconForward = Icon(
+      (Icons.arrow_forward_ios),
+      size: 17,
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
       body: ListView(
         children: [
-          Center(
-            child: CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('assets/profile_image.png'),
-            ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: CircleAvatar(radius: 50, backgroundImage: NetworkImage('https://source.unsplash.com/random/200x200?sig=1')),
+            title: Text('Turan Kaya', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            subtitle: Text('turankaya@gmail.com'),
           ),
           const SizedBox(
             height: 25,
           ),
           ListTile(
-            leading: Icon(Icons.person), // Add icon to the leading property
-            title: Text('My Profile'),
+            leading: Text('Hesabım', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+          ListTile(
+            title: Text('Profilim'),
             onTap: () {
               Navigator.pushNamed(context, '/profiledetail');
             },
-          ),
-          const SizedBox(
-            height: 25,
+            trailing: iconForward,
           ),
           ListTile(
-            leading: Icon(Icons.event), // Add icon to the leading property
-            title: Text('My Event Rooms'),
+            title: Text('Etkinlik Odalarım'),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => UserEventRooms()));
             },
+            trailing: iconForward,
           ),
           const SizedBox(
             height: 25,
           ),
           ListTile(
-            leading: Icon(Icons.logout), // Add icon to the leading property
-            title: Text('Log Out'),
+            leading: Text('Ayarlar', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+          ListTile(
+            title: Text('Şehir'),
+            trailing: iconForward,
+          ),
+          ListTile(
+            title: Text('Dil'),
+            trailing: iconForward,
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          ListTile(
+            leading: Text('Destek', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+          ListTile(
+            title: Text('Yardım Merkezi'),
             onTap: () {
-              AuthService().Logout(context);
-              // Handle Log Out option
+              // Handle Help option
             },
+            trailing: iconForward,
+          ),
+          ListTile(
+            title: Text('Geribildirim'),
+            onTap: () {
+              // Handle Feedback option
+            },
+            trailing: iconForward,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.red,
+            ),
+            margin: EdgeInsets.only(top: 25, left: 15, right: 15),
+            child: TextButton(
+              onPressed: () {
+                AuthService().logOut(context);
+              },
+              child: Text('Çıkış Yap', style: TextStyle(color: Colors.white)),
+            ),
           ),
         ],
       ),
