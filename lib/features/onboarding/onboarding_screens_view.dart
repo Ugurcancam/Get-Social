@@ -1,4 +1,3 @@
-import 'package:etkinlikapp/features/auth/screens/login_view.dart';
 import 'package:etkinlikapp/features/onboarding/onboarding_model.dart';
 import 'package:flutter/material.dart';
 

@@ -32,6 +32,7 @@ class BuildPasswordTextField extends StatelessWidget {
             Expanded(
               flex: 3,
               child: TextFormField(
+                style: TextStyle(color: thirdTextColor),
                 obscureText: !isPasswordVisible,
                 controller: passwordController,
                 validator: loginViewModel.validatePassword,
@@ -66,10 +67,10 @@ class ForgotPasswordText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => showForgotPasswordBottomSheet(context),
       child: Container(
-        alignment: Alignment.topRight,
+        alignment: Alignment.center,
         child: const Text(
           'Şifremi Unuttum',
           style: TextStyle(
@@ -165,24 +166,26 @@ class NavigateToRegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/register'),
-      child: const Text.rich(
-        TextSpan(
-          text: 'Bir hesabınız yok mu? ',
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-          ),
-          children: [
-            TextSpan(
-              text: 'Kayıt ol',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.deepPurple,
-              ),
+    return Center(
+      child: InkWell(
+        onTap: () => Navigator.pushNamed(context, '/register'),
+        child: const Text.rich(
+          TextSpan(
+            text: 'Bir hesabınız yok mu? ',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
             ),
-          ],
+            children: [
+              TextSpan(
+                text: 'Kayıt ol',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.deepPurple,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -194,9 +197,11 @@ class LoginButtonField extends StatelessWidget {
     required this.formKey,
     required this.valueByEmailController,
     required this.valueByPasswordController,
+    required this.isTermsAccepted,
     super.key,
   });
 
+  final bool isTermsAccepted;
   final GlobalKey<FormState> formKey;
   final String valueByEmailController;
   final String valueByPasswordController;
@@ -205,7 +210,14 @@ class LoginButtonField extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        if (formKey.currentState!.validate()) {
+        if (isTermsAccepted || formKey.currentState!.validate()) {
+          // Show loading widget for 2 seconds
+          final loadingCompleter = Completer<void>();
+          Timer(const Duration(seconds: 2), loadingCompleter.complete);
+          showLoadingAnimation(context);
+
+          // Execute sign-in logic after delay
+          await loadingCompleter.future;
           await AuthService().signIn(context, email: valueByEmailController, password: valueByPasswordController);
         }
       },
@@ -228,6 +240,20 @@ class LoginButtonField extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void showLoadingAnimation(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // Prevent user from dismissing while loading
+      builder: (context) => Center(
+        child: LoadingAnimationWidget.twistingDots(
+          leftDotColor: const Color(0xFF1A1A3F),
+          rightDotColor: const Color(0xFFEA3799),
+          size: 200,
         ),
       ),
     );
@@ -256,6 +282,7 @@ class BuildEmailTextField extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: const Color.fromRGBO(49, 62, 85, 0.78)),
       child: Center(
         child: TextFormField(
+          style: TextStyle(color: thirdTextColor),
           keyboardType: TextInputType.emailAddress,
           validator: loginViewModel.validateEmail,
           controller: emailController,

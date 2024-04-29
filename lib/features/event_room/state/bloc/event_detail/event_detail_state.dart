@@ -16,7 +16,7 @@ final class UserisCreatorState extends EventDetailState {}
 final class UserisNotCreatorState extends EventDetailState {}
 
 // Kullanıcının odaya katılma isteği atıp beklediği durum
-final class UserisPendingApproval extends EventDetailState {}
+final class UserisPendingApprovalState extends EventDetailState {}
 
 // Kullanıcının odaya katıldığı durum -- katılmıs olacak ama uid si creator uid ile aynı olmayacak
 final class UserisApprovedState extends EventDetailState {}

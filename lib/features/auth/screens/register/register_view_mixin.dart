@@ -1,12 +1,18 @@
-import 'package:etkinlikapp/features/auth/domain/view_models/register_view_model.dart';
-import 'package:etkinlikapp/features/auth/screens/register_view.dart';
-import 'package:flutter/material.dart';
+part of 'register_view.dart';
 
 mixin RegisterViewMixin on State<RegisterView> {
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
   final RegisterViewModel registerViewModel = RegisterViewModel();
 
+  //Service
+  final ProvinceService provinceService = ProvinceService();
+
+  //Variables for selecting Province and District
+  late List<String> provinces;
+  List<String> ilcelerr = [];
+  late String selectedProvince;
+  late String selectedDistrict;
   // Textfield'lar için controller'lar
   final TextEditingController nameSurnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -26,4 +32,17 @@ mixin RegisterViewMixin on State<RegisterView> {
   // Sayfa boyutlarını almak için
   double get width => MediaQuery.of(context).size.width;
   double get height => MediaQuery.of(context).size.height;
+
+  @override
+  void initState() {
+    super.initState();
+    getProvinces();
+  }
+
+  Future<void> getProvinces() async {
+    final provinceData = await provinceService.getProvinces();
+    setState(() {
+      provinces = provinceData;
+    });
+  }
 }

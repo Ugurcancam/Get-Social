@@ -46,7 +46,7 @@ class Profile extends StatelessWidget {
             leading: Icon(Icons.logout), // Add icon to the leading property
             title: Text('Log Out'),
             onTap: () {
-              AuthService().signOut(context);
+              AuthService().Logout(context);
               // Handle Log Out option
             },
           ),

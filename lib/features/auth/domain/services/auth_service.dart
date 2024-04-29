@@ -1,18 +1,15 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:etkinlikapp/core/services/locale_data_service.dart';
 import 'package:etkinlikapp/features/auth/domain/models/user_model.dart';
+import 'package:etkinlikapp/features/bottom_navbar/bottom_navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final userCollection = FirebaseFirestore.instance.collection('users');
   final firebaseAuth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
 
-  Future<void> signUp(BuildContext context, {required String nameSurname, required String email, required String password, required String dateOfBirth, required String province}) async {
+  Future<void> signUp(BuildContext context, {required String nameSurname, required String email, required String password, required String dateOfBirth, required String province, required String district}) async {
     final navigator = Navigator.of(context);
     try {
       final userCredential = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
@@ -23,7 +20,9 @@ class AuthService {
           email: email,
           dateOfBirth: dateOfBirth,
           province: province,
+          district: district,
         );
+        await userCredential.user!.sendEmailVerification();
         await navigator.pushNamed('/login');
       }
     } on FirebaseAuthException catch (error) {
@@ -31,13 +30,14 @@ class AuthService {
     }
   }
 
-  Future<void> _registerUser({required String userId, required String nameSurname, required String email, required String dateOfBirth, required String province}) async {
+  Future<void> _registerUser({required String userId, required String nameSurname, required String email, required String dateOfBirth, required String province, required String district}) async {
     await userCollection.doc(userId).set({
       'uid': userId,
       'email': email,
       'namesurname': nameSurname,
       'dateOfBirth': dateOfBirth,
       'province': province,
+      'district': district,
     });
   }
 
@@ -72,7 +72,7 @@ class AuthService {
     // }
   }
 
-  Future<void> signOut(BuildContext context) async {
+  Future<void> Logout(BuildContext context) async {
     final navigator = Navigator.of(context);
     await firebaseAuth.signOut();
     await navigator.pushNamedAndRemoveUntil('/login', (route) => false);
@@ -94,6 +94,14 @@ class AuthService {
       await firebaseAuth.currentUser!.sendEmailVerification();
     } on FirebaseAuthException catch (error) {
       print(error);
+    }
+  }
+
+  Future<void> checkEmailVerificationStatus(BuildContext context) async {
+    await FirebaseAuth.instance.currentUser!.reload();
+    final verified = FirebaseAuth.instance.currentUser!.emailVerified;
+    if (verified) {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavbar()), (route) => false);
     }
   }
 

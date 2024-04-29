@@ -12,18 +12,6 @@ class EventRoomService {
     return eventRoomData;
   }
 
-  // StreamSubscription<QuerySnapshot<Map<String, dynamic>>> getEventRoomsStream() {
-  //   final stream = _firestore.collection('event_rooms').snapshots().listen(
-  //     (event) {
-  //       event.docs.forEach((element) {
-  //         print(element.data());
-  //       });
-  //     },
-  //   );
-
-  //   return stream;
-  // }
-
   Future<void> createRoom({required String eventName, required String eventDetail, required String eventDate, required String eventTime, required String creatorUid, required String namesurname, required String coordinate, required String province, required String district, required String addressDetail, required List<String> category}) async {
     // Kategorileri isimlerle eşleştirilmiş bir harita oluştur
     List<Map<String, String>> categoryList = category.map((categoryName) => {'name': categoryName}).toList();
@@ -34,6 +22,7 @@ class EventRoomService {
       'eventDate': eventDate,
       'eventTime': eventTime,
       'creatorUid': creatorUid,
+      'messages': [],
       'approved_users': [
         {'uid': creatorUid, 'namesurname': namesurname},
       ],
@@ -113,5 +102,36 @@ class EventRoomService {
       final pendingUsers = snapshot.get('pending_approval_users') as List<dynamic>?;
       transaction.update(docRef, {'pending_approval_users': pendingUsers?..removeWhere((user) => user['uid'] == uid)});
     });
+  }
+
+  Future<void> sendMessage({required String docId, required String uid, required String namesurname, required String message}) async {
+    // Create a reference to the event room document
+    final docRef = _firestore.collection('event_rooms').doc(docId);
+    // Perform a transaction to ensure data consistency
+    await _firestore.runTransaction((transaction) async {
+      // Get the current document snapshot
+      final snapshot = await transaction.get(docRef);
+
+      // Extract the existing messages list (if it exists)
+      final existingMessages = snapshot.get('messages') as List<dynamic>?;
+
+      // Create a new list to hold the updated messages
+      final updatedMessages = (existingMessages ?? []).toList();
+      // Add the new message to the list
+      updatedMessages.add({
+        'uid': uid,
+        'namesurname': namesurname,
+        'message': message,
+        'timestamp': Timestamp.now(),
+      });
+
+      // Update the document with the modified list
+      transaction.update(docRef, {'messages': updatedMessages});
+    });
+  }
+
+  // Get the stream messages for a specific event room
+  Stream<DocumentSnapshot> getMessagesStream({required String docId}) {
+    return _firestore.collection('event_rooms').doc(docId).snapshots();
   }
 }

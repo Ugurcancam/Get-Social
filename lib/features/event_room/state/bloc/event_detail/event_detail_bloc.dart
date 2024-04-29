@@ -14,14 +14,18 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
   }
 
   FutureOr<void> getEventDetail(GetEventDetail event, Emitter<EventDetailState> emit) {
+    print("event id ${event.uid}");
+    print("eventroom id ${eventRoom.creatorUid}");
     if (event.uid == eventRoom.creatorUid) {
       emit(UserisCreatorState());
-    } else if (event.uid != eventRoom.creatorUid) {
-      emit(UserisNotCreatorState());
+    } else if (eventRoom.pendingApprovalUsers.any((user) => user.uid == event.uid)) {
+      emit(UserisPendingApprovalState());
     } else if (eventRoom.approvedUsers.any((user) => user.uid == event.uid)) {
       emit(UserisApprovedState());
-    } else if (eventRoom.pendingApprovalUsers.any((user) => user.uid == event.uid)) {
-      emit(UserisPendingApproval());
+    } else if (event.uid != eventRoom.creatorUid) {
+      emit(UserisNotCreatorState());
     }
+
+    print(state);
   }
 }

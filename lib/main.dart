@@ -1,12 +1,10 @@
-import 'package:etkinlikapp/core/constants/constants.dart';
 import 'package:etkinlikapp/core/routes/routes.dart';
 import 'package:etkinlikapp/core/services/locale_data_service.dart';
-import 'package:etkinlikapp/features/auth/domain/models/user_model.dart';
+import 'package:etkinlikapp/deneme.dart';
 import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
 import 'package:etkinlikapp/features/auth/screens/sign_in_options_view.dart';
+import 'package:etkinlikapp/features/auth/screens/verify_mail/verify_email_view.dart';
 import 'package:etkinlikapp/features/bottom_navbar/bottom_navbar.dart';
-import 'package:etkinlikapp/features/event_room/screens/sdfsf.dart';
-import 'package:etkinlikapp/features/event_room/screens/yeni.dart';
 import 'package:etkinlikapp/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,7 +44,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               useMaterial3: true,
             ),
-            home: BottomNavbar(),
+            home: snapshot.data!.emailVerified ? const BottomNavbar() : const VerifyEmailPage(),
           );
         } else {
           return MaterialApp(

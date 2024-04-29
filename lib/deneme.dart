@@ -1,72 +1,53 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-// void main() {
-//   runApp(const MyApp());
-// }
+class Denemap extends StatefulWidget {
+  @override
+  _DenemapState createState() => _DenemapState();
+}
 
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
+class _DenemapState extends State<Denemap> {
+  @override
+  void initState() {
+    super.initState();
+    navigateToNextPage();
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Skeletonizer Demo',
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData.light(useMaterial3: true),
-//       home: const SkeletonizerDemoPage(),
-//     );
-//   }
-// }
+  void navigateToNextPage() async {
+    // Wait for 2 seconds
+    await Future.delayed(Duration(seconds: 2));
 
-// class SkeletonizerDemoPage extends StatefulWidget {
-//   const SkeletonizerDemoPage({super.key});
+    // Navigate to the next page
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => NextPage()),
+    );
+  }
 
-//   @override
-//   State<SkeletonizerDemoPage> createState() => _SkeletonizerDemoPageState();
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: LoadingAnimationWidget.twistingDots(
+          leftDotColor: const Color(0xFF1A1A3F),
+          rightDotColor: const Color(0xFFEA3799),
+          size: 200,
+        ),
+      ),
+    );
+  }
+}
 
-// class _SkeletonizerDemoPageState extends State<SkeletonizerDemoPage> {
-//   bool _enabled = true;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Skeletonizer Demo')),
-//       floatingActionButton: Padding(
-//         padding: const EdgeInsets.only(bottom: 0, right: 4),
-//         child: Padding(
-//           padding: const EdgeInsets.only(bottom: 110),
-//           child: FloatingActionButton(
-//             child: Icon(
-//               _enabled ? Icons.hourglass_bottom_rounded : Icons.hourglass_disabled_outlined,
-//             ),
-//             onPressed: () {
-//               setState(() {
-//                 _enabled = !_enabled;
-//               });
-//             },
-//           ),
-//         ),
-//       ),
-//       body: Skeletonizer(
-//         enabled: _enabled,
-//         child: ListView.builder(
-//           itemCount: 6,
-//           padding: const EdgeInsets.all(16),
-//           itemBuilder: (context, index) {
-//             return Card(
-//               child: ListTile(
-//                 title: Text('Item number $index as title'),
-//                 subtitle: const Text('Subtitle here'),
-//                 trailing: const Icon(
-//                   Icons.ac_unit,
-//                   size: 32,
-//                 ),
-//               ),
-//             );
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
+class NextPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Next Page'),
+      ),
+      body: Center(
+        child: Text('This is the next page'),
+      ),
+    );
+  }
+}

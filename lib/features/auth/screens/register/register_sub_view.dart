@@ -94,6 +94,7 @@ class ConfirmPasswordTextfield extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: authContainerTextFieldColor),
       child: Center(
         child: TextFormField(
+          style: TextStyle(color: thirdTextColor),
           validator: registerViewModel.validatePassword,
           controller: checkPasswordController,
           decoration: const InputDecoration(
@@ -132,6 +133,7 @@ class PasswordTextField extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: authContainerTextFieldColor),
       child: Center(
         child: TextFormField(
+          style: TextStyle(color: thirdTextColor),
           validator: registerViewModel.validatePassword,
           controller: passwordController,
           decoration: const InputDecoration(
@@ -170,6 +172,7 @@ class EmailTextField extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: authContainerTextFieldColor),
       child: Center(
         child: TextFormField(
+          style: TextStyle(color: thirdTextColor),
           keyboardType: TextInputType.emailAddress,
           validator: registerViewModel.validateEmail,
           controller: emailController,
@@ -209,6 +212,7 @@ class NameSurnameTextField extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: authContainerTextFieldColor),
       child: Center(
         child: TextFormField(
+          style: TextStyle(color: thirdTextColor),
           keyboardType: TextInputType.name,
           validator: registerViewModel.validateNameSurname,
           controller: nameSurnameController,
@@ -220,6 +224,37 @@ class NameSurnameTextField extends StatelessWidget {
             border: InputBorder.none,
             contentPadding: EdgeInsets.only(left: 16),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class NavigateToLoginPage extends StatelessWidget {
+  const NavigateToLoginPage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, '/login'),
+      child: const Text.rich(
+        TextSpan(
+          text: 'Bir hesabınız var mı? ',
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+          ),
+          children: [
+            TextSpan(
+              text: 'Giriş Yap',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.deepPurple,
+              ),
+            ),
+          ],
         ),
       ),
     );

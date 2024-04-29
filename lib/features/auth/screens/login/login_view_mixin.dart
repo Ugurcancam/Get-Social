@@ -1,6 +1,4 @@
-import 'package:etkinlikapp/features/auth/domain/view_models/login_view_model.dart';
-import 'package:etkinlikapp/features/auth/screens/login_view.dart';
-import 'package:flutter/material.dart';
+part of 'login_view.dart';
 
 mixin LoginViewMixin on State<LoginView> {
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
@@ -9,7 +7,10 @@ mixin LoginViewMixin on State<LoginView> {
 
   // Şifre görünürlüğü kontrolü için
   bool isPasswordVisible = false;
-
+  // Şartlar kabul edildi mi kontrolü için
+  bool isTermsAccepted = false;
+  // Şartlar kabul edilmezse hata mesajı göstermek için
+  bool isTermsError = false;
   // Textfield'lar için controller'lar
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
