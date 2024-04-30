@@ -12,6 +12,13 @@ class EventRoomService {
     return eventRoomData;
   }
 
+  //Get events by category
+  Future<List<EventRoomModel>> getEventRoomsByCategory({required String category}) async {
+    final snapshot = await _firestore.collection('event_rooms').where('category', arrayContains: category).get();
+    final eventRoomData = snapshot.docs.map((doc) => EventRoomModel.fromSnapshot(doc, doc.id)).toList();
+    return eventRoomData;
+  }
+
   Future<void> createRoom({required String eventName, required String eventDetail, required String eventDate, required String eventTime, required String creatorUid, required String namesurname, required String coordinate, required String province, required String district, required String addressDetail, required List<String> category}) async {
     // Kategorileri isimlerle eşleştirilmiş bir harita oluştur
     List<Map<String, String>> categoryList = category.map((categoryName) => {'name': categoryName}).toList();

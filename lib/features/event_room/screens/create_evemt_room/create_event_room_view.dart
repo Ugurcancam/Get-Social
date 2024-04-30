@@ -87,7 +87,13 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
                     const HeightBox(height: 13),
                     CustomTextFormField(width: width, height: height, hintText: 'Event Açıklaması', controller: _createEventRoomViewModel.eventDescriptionController),
                     const HeightBox(height: 13),
-                    CategoryListDropdownMenu(width: width, eventCategory: eventCategory, selectedCategoryList: selectedCategoryList!),
+                    CustomDropdown<String>.multiSelect(
+                      items: eventCategory.map((e) => e.name).toList(),
+                      onListChanged: (value) {
+                        selectedCategoryList = value;
+                        print(selectedCategoryList);
+                      },
+                    ),
                     const HeightBox(height: 13),
                     CustomTextFieldWithIcon(width: width, height: height, hintText: 'Event Tarihi', controller: _createEventRoomViewModel.eventDateController, icon: Icons.date_range, onPressed: _selectDate),
                     const SizedBox(height: 13),
@@ -120,7 +126,47 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
                           });
                         },
                       ),
-                    CreateRoomButton(width: width, height: height, eventRoomService: _eventRoomService, roomViewModel: _createEventRoomViewModel, uid: uid, nameSurname: nameSurname, selectedCategoryList: selectedCategoryList, coordinate: selectedPlaceCoordinate, selectedProvince: selectedProvince, selectedDistrict: selectedDistrict, eventPlaceDescriptionController: _createEventRoomViewModel.eventPlaceDescriptionController),
+                    CreateRoomButton(
+                      width: width,
+                      height: height,
+                      eventRoomService: _eventRoomService,
+                      roomViewModel: _createEventRoomViewModel,
+                      uid: uid,
+                      nameSurname: nameSurname,
+                      selectedCategoryListt: selectedCategoryList,
+                      coordinate: selectedPlaceCoordinate,
+                      selectedProvince: selectedProvince,
+                      selectedDistrict: selectedDistrict,
+                      eventPlaceDescriptionController: _createEventRoomViewModel.eventPlaceDescriptionController,
+                    ),
+                    Container(
+                      width: width,
+                      height: height * 0.08,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await _eventRoomService.createRoom(
+                            eventName: _createEventRoomViewModel.eventNameController.text,
+                            eventDetail: _createEventRoomViewModel.eventDescriptionController.text,
+                            eventDate: _createEventRoomViewModel.eventDateController.text,
+                            eventTime: _createEventRoomViewModel.eventTimeController.text,
+                            creatorUid: 'uid'!,
+                            namesurname: 'nameSurname'!,
+                            category: selectedCategoryList!,
+                            coordinate: 'coordinate',
+                            province: selectedProvince,
+                            district: selectedDistrict,
+                            addressDetail: 'eventPlaceDescriptionController',
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Room created successfully'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        },
+                        child: const Text('Odayı Oluştur'),
+                      ),
+                    )
                   ],
                 ),
               ),

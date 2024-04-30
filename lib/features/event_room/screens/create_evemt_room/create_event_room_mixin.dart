@@ -27,7 +27,7 @@ mixin CreateEventRoomPageMixin on State<CreateEventRoomPage> {
   late String selectedDistrict;
 
   //Variables for selecting Category
-  late final List<String>? selectedCategoryList;
+  late List<String>? selectedCategoryList;
 
   //bloc
   late CreateRoomBloc _createRoomBloc;

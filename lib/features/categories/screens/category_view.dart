@@ -1,4 +1,5 @@
 import 'package:etkinlikapp/features/categories/domain/services/category_service.dart';
+import 'package:etkinlikapp/features/events_by_category/screens/events_by_category_view.dart';
 import 'package:flutter/material.dart';
 
 class CategoryView extends StatefulWidget {
@@ -27,22 +28,25 @@ class _CategoryViewState extends State<CategoryView> {
               ),
               itemBuilder: (context, index) {
                 final category = snapshot.data![index];
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.teal[100],
-                    borderRadius: BorderRadius.circular(13),
-                    image: DecorationImage(
-                      image: NetworkImage(snapshot.data![index].image),
-                      fit: BoxFit.cover,
+                return InkWell(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => EventsByCategoryView())),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.teal[100],
+                      borderRadius: BorderRadius.circular(13),
+                      image: DecorationImage(
+                        image: NetworkImage(snapshot.data![index].image),
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    category.name,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      category.name,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 );

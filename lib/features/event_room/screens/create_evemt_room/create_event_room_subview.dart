@@ -9,7 +9,7 @@ final class CreateRoomButton extends StatelessWidget {
     required CreateEventRoomViewModel roomViewModel,
     required this.uid,
     required this.nameSurname,
-    required this.selectedCategoryList,
+    required this.selectedCategoryListt,
     required this.coordinate,
     required this.selectedProvince,
     required this.selectedDistrict,
@@ -23,7 +23,7 @@ final class CreateRoomButton extends StatelessWidget {
   final CreateEventRoomViewModel _createEventRoomViewModel;
   final String? uid;
   final String? nameSurname;
-  final List<String>? selectedCategoryList;
+  final List<String>? selectedCategoryListt;
   final String coordinate;
   final String selectedProvince;
   final String selectedDistrict;
@@ -36,6 +36,7 @@ final class CreateRoomButton extends StatelessWidget {
       height: height * 0.08,
       child: ElevatedButton(
         onPressed: () async {
+          print(selectedCategoryListt);
           await _eventRoomService.createRoom(
             eventName: _createEventRoomViewModel.eventNameController.text,
             eventDetail: _createEventRoomViewModel.eventDescriptionController.text,
@@ -43,7 +44,7 @@ final class CreateRoomButton extends StatelessWidget {
             eventTime: _createEventRoomViewModel.eventTimeController.text,
             creatorUid: uid!,
             namesurname: nameSurname!,
-            category: selectedCategoryList!,
+            category: selectedCategoryListt!,
             coordinate: coordinate,
             province: selectedProvince,
             district: selectedDistrict,
