@@ -1,5 +1,5 @@
 Event Builder App
-Welcome to the Event Builder App, a powerful mobile application developed using Flutter and Firebase. This app is designed to simplify event organization and collaboration, allowing users to seamlessly become members, create event rooms, and request to join each other's rooms. Whether you're planning a small gathering or a large-scale event, the Event Builder App has got you covered.
+Welcome to the Event Builder App, a mobile application currently under development using Flutter and Firebase. This app is being designed to simplify event organization and collaboration, enabling users to seamlessly become members, create event rooms, and request to join each other's rooms. Whether you're planning a small gathering or a large-scale event, the Event Builder App aims to provide the tools you need.
 
 Features:
 User Membership: Users can become members of the app, gaining access to a range of features and functionalities.
