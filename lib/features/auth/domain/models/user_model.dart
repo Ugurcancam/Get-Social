@@ -10,12 +10,14 @@ class UserModel {
   final String namesurname;
   final String province;
   final String uid;
+  final String? profilePhotoURL;
 
   const UserModel({
     required this.email,
     required this.namesurname,
     required this.province,
     required this.uid,
+    this.profilePhotoURL = '',
   });
 
   Map<String, dynamic> toMap() {
@@ -24,6 +26,7 @@ class UserModel {
       'namesurname': namesurname,
       'province': province,
       'uid': uid,
+      'profilePhotoURL': profilePhotoURL,
     };
   }
 
@@ -33,6 +36,7 @@ class UserModel {
       namesurname: map['namesurname'] as String,
       province: map['province'] as String,
       uid: map['uid'] as String,
+      profilePhotoURL: map['profilePhotoURL'] as String,
     );
   }
 

@@ -13,7 +13,7 @@ final class EventRoomModel {
   final String? docId;
   final List<AppRovedUsers> approvedUsers;
   final List<PendingApprovalUsers> pendingApprovalUsers;
-  final List<EventCategories> categories;
+  final String categories;
 
   EventRoomModel({
     required this.eventName,
@@ -44,10 +44,12 @@ final class EventRoomModel {
       creatorUid: snapshot['creatorUid'] as String,
       approvedUsers: (snapshot['approved_users'] as List).map((e) => AppRovedUsers.fromMap(e as Map<String, dynamic>)).toList(),
       pendingApprovalUsers: (snapshot['pending_approval_users'] as List<dynamic>).map((e) => PendingApprovalUsers.fromMap(e as Map<String, dynamic>)).toList(),
-      categories: (snapshot['category'] as List<dynamic>).map((e) => EventCategories.fromMap(e as Map<String, dynamic>)).toList(),
+      categories: (snapshot['category'] as String),
       docId: docId,
     );
   }
+
+  static fromMap(event) {}
 }
 
 class AppRovedUsers {

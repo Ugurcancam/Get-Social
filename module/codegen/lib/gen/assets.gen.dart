@@ -28,6 +28,10 @@ class $AssetsImagesGen {
   AssetGenImage get appleIcon =>
       const AssetGenImage('assets/images/apple_icon.png');
 
+  /// File path: assets/images/img_no_profile_pic.png
+  AssetGenImage get imgNoProfilePic =>
+      const AssetGenImage('assets/images/img_no_profile_pic.png');
+
   /// File path: assets/images/signinoptions_background.jpg
   AssetGenImage get signinoptionsBackground =>
       const AssetGenImage('assets/images/signinoptions_background.jpg');
@@ -37,8 +41,12 @@ class $AssetsImagesGen {
       const SvgGenImage('assets/images/veritification_mail_sent.svg');
 
   /// List of all assets
-  List<dynamic> get values =>
-      [appleIcon, signinoptionsBackground, veritificationMailSent];
+  List<dynamic> get values => [
+        appleIcon,
+        imgNoProfilePic,
+        signinoptionsBackground,
+        veritificationMailSent
+      ];
 }
 
 class Assets {

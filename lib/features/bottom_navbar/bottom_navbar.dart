@@ -1,5 +1,6 @@
 import 'package:etkinlikapp/core/constants/constants.dart';
 import 'package:etkinlikapp/features/categories/screens/category_view.dart';
+import 'package:etkinlikapp/features/event_room/screens/create_evemt_room/create_event_room_view.dart';
 import 'package:etkinlikapp/features/event_room/screens/event_rooms_view.dart';
 import 'package:etkinlikapp/features/home/screens/homepage_view.dart';
 import 'package:etkinlikapp/features/profile/screens/profile_view.dart';
@@ -19,6 +20,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   final List<Widget> _pages = [
     const HomePage(),
     const CategoryView(),
+    const CreateEventRoomPage(),
     const EventRooms(),
     const Profile(), // Replace with your Profile page widget
   ];
@@ -54,6 +56,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
               GButton(
                 icon: Icons.search,
                 text: 'Search',
+              ),
+              GButton(
+                icon: Icons.add,
+                //  text: 'Search',
               ),
               GButton(
                 icon: Icons.favorite,

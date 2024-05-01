@@ -26,4 +26,15 @@ class UserService {
       return null;
     }
   }
+
+  // //Get logged in users information
+  // Future<UserModel?> getLoggedInUserDetails(String uid) async {
+  //   final snapshot = await _firestore.collection('users').doc(uid).get();
+  //   if (snapshot.exists) {
+  //     final userData = UserModel.fromSnapshot(snapshot);
+  //     return userData;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 }

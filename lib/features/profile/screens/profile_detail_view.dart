@@ -1,10 +1,14 @@
 import 'dart:io';
 
-import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:codegen/codegen.dart';
 import 'package:etkinlikapp/features/profile/domain/services/user_service.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+part 'profile_detail_mixin.dart';
 
 class ProfileDetail extends StatefulWidget {
   ProfileDetail({super.key});
@@ -13,25 +17,12 @@ class ProfileDetail extends StatefulWidget {
   State<ProfileDetail> createState() => _ProfileDetailState();
 }
 
-class _ProfileDetailState extends State<ProfileDetail> {
-  PlatformFile? file;
-
-  Future<void> selectFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      File file = File(result.files.single.path!);
-    } else {
-      // User canceled the picker
-    }
-  }
-
+class _ProfileDetailState extends State<ProfileDetail> with ProfileDetailMixin {
   @override
   Widget build(BuildContext context) {
-    final email = Provider.of<UserProvider>(context).email;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile Detail'),
+        title: const Text('Profilim'),
       ),
       body: FutureBuilder(
         future: UserService().getUserDetails(email!),
@@ -40,30 +31,62 @@ class _ProfileDetailState extends State<ProfileDetail> {
             final user = snapshot.data;
             return ListView(
               children: [
-                Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage('assets/profile_image.png'),
+                if (user!.profilePhotoURL != '')
+                  InkWell(
+                    child: Center(
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage: NetworkImage(user.profilePhotoURL!),
+                      ),
+                    ),
+                  )
+                else
+                  InkWell(
+                    onTap: _pickFile,
+                    child: Center(
+                      child: _filePath != null
+                          ? CircleAvatar(
+                              radius: 50,
+                              backgroundImage: Image.file(
+                                File(_filePath!),
+                                width: 150,
+                                height: 150,
+                              ).image,
+                            )
+                          : Image.asset(
+                              Assets.images.imgNoProfilePic.path,
+                              width: 150,
+                              height: 150,
+                            ),
+                    ),
                   ),
-                ),
-                SizedBox(
+
+                const SizedBox(
                   height: 25,
                 ),
-                if (file != null) Text(file!.name),
                 ListTile(
-                  leading: Icon(Icons.person), // Add icon to the leading property
-                  title: Text('Ad Soyad'),
+                  leading: const Icon(Icons.person), // Add icon to the leading property
+                  title: const Text('Ad Soyad'),
                   subtitle: Text(user!.namesurname),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 ListTile(
-                  leading: Icon(Icons.email), // Add icon to the leading property
-                  title: Text('Email'),
-                  subtitle: Text(email),
+                  leading: const Icon(Icons.email), // Add icon to the leading property
+                  title: const Text('Email'),
+                  subtitle: Text(email!),
                 ),
-                ElevatedButton(onPressed: () => selectFile(), child: Text('Dosya Seç')),
+
+                const SizedBox(height: 16),
+                //Show the selected image on phone
+
+                Container(),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: _uploadFile,
+                  child: const Text('Kaydet'),
+                ),
               ],
             );
           } else if (snapshot.hasError) {
@@ -71,7 +94,7 @@ class _ProfileDetailState extends State<ProfileDetail> {
               child: Text('Error: ${snapshot.error}'),
             );
           }
-          return Center(child: Text('No data'));
+          return const Center(child: Text('No data'));
         },
       ),
     );

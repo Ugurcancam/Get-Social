@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+    <!-- Primary colors -->
+    <color name="primary">#1565C0</color> <!-- Blue -->
+    <color name="primary_variant">#0D47A1</color> <!-- Dark Blue -->
+    <color name="on_primary">#FFFFFF</color> <!-- White -->
 
-  <!-- Light theme brand colors. -->
-  <color name="color_primary">#6200EE</color>
-  <color name="color_primary_dark">#3700B3</color>
-  <color name="color_primary_variant">#3700B3</color>
-  <color name="color_on_primary">#FFFFFF</color>
-  <color name="color_secondary">#03DAC6</color>
-  <color name="color_secondary_variant">#018786</color>
-  <color name="color_on_secondary">#000000</color>
+    <!-- Secondary colors -->
+    <color name="secondary">#FFC107</color> <!-- Amber -->
+    <color name="secondary_variant">#FFA000</color> <!-- Dark Amber -->
+    <color name="on_secondary">#212121</color> <!-- Dark Grey -->
 
-  <!-- Dark theme brand colors. -->
-  <color name="dark_default_color_primary">#BA86FC</color>
-  <color name="dark_default_color_primary_dark">#000000</color>
-  <color name="dark_default_color_primary_variant">#3700B3</color>
-  <color name="dark_default_color_on_primary">#000000</color>
-  <color name="dark_default_color_secondary">#03DAC6</color>
-  <color name="dark_default_color_secondary_variant">#03DAC6</color>
-  <color name="dark_default_color_on_secondary">#000000</color>
+    <!-- Background colors -->
+    <color name="background">#FFFFFF</color> <!-- White -->
+    <color name="on_background">#212121</color> <!-- Dark Grey -->
+
+    <!-- Surface colors -->
+    <color name="surface">#F5F5F5</color> <!-- Light Grey -->
+    <color name="on_surface">#212121</color> <!-- Dark Grey -->
+
+    <!-- Error colors -->
+    <color name="error">#D32F2F</color> <!-- Red -->
+    <color name="on_error">#FFFFFF</color> <!-- White -->
+
+    <!-- Text colors -->
+    <color name="primary_text">#212121</color> <!-- Dark Grey -->
+    <color name="secondary_text">#757575</color> <!-- Grey -->
+
+    <!-- Icon colors -->
+    <color name="icon">#212121</color> <!-- Dark Grey -->
+    <color name="icon_active">#1565C0</color> <!-- Blue -->
+
+    <!-- Button colors -->
+    <color name="button_background">#1565C0</color> <!-- Blue -->
+    <color name="button_text">#FFFFFF</color> <!-- White -->
+    <color name="button_border">#0D47A1</color> <!-- Dark Blue -->
 </resources>

@@ -4,6 +4,7 @@ mixin HomePageMixin on State<HomePage> {
   // Services
   final LocalDataService localDataService = LocalDataService();
   UserProvider userProvider = UserProvider();
+  final homePageBloc = HomePageBloc();
 
   // Sayfa boyutlarını almak için
   double get width => MediaQuery.of(context).size.width;
@@ -35,7 +36,7 @@ mixin HomePageMixin on State<HomePage> {
     loadUserDataFromStorage().then((value) async {
       await AuthService().getUserDetails(email!);
       await getUserDetails();
-
+      homePageBloc.add(GetHomePageData(userEmail: email!));
       Provider.of<UserProvider>(context, listen: false).setUid(uid!);
     });
   }

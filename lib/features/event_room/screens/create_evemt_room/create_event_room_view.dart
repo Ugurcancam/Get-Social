@@ -87,11 +87,11 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
                     const HeightBox(height: 13),
                     CustomTextFormField(width: width, height: height, hintText: 'Event Açıklaması', controller: _createEventRoomViewModel.eventDescriptionController),
                     const HeightBox(height: 13),
-                    CustomDropdown<String>.multiSelect(
+                    CustomDropdown(
                       items: eventCategory.map((e) => e.name).toList(),
-                      onListChanged: (value) {
-                        selectedCategoryList = value;
-                        print(selectedCategoryList);
+                      onChanged: (value) {
+                        selectedCategory = value;
+                        print(selectedCategory);
                       },
                     ),
                     const HeightBox(height: 13),
@@ -126,19 +126,20 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
                           });
                         },
                       ),
-                    CreateRoomButton(
-                      width: width,
-                      height: height,
-                      eventRoomService: _eventRoomService,
-                      roomViewModel: _createEventRoomViewModel,
-                      uid: uid,
-                      nameSurname: nameSurname,
-                      selectedCategoryListt: selectedCategoryList,
-                      coordinate: selectedPlaceCoordinate,
-                      selectedProvince: selectedProvince,
-                      selectedDistrict: selectedDistrict,
-                      eventPlaceDescriptionController: _createEventRoomViewModel.eventPlaceDescriptionController,
-                    ),
+                    // CreateRoomButton(
+                    //   width: width,
+                    //   height: height,
+                    //   eventRoomService: _eventRoomService,
+                    //   roomViewModel: _createEventRoomViewModel,
+                    //   uid: uid,
+                    //   nameSurname: nameSurname,
+                    //   selectedCategoryListt: selectedCategoryList,
+                    //   coordinate: selectedPlaceCoordinate,
+                    //   selectedProvince: selectedProvince,
+                    //   selectedDistrict: selectedDistrict,
+                    //   eventPlaceDescriptionController: _createEventRoomViewModel.eventPlaceDescriptionController,
+                    // ),
+
                     Container(
                       width: width,
                       height: height * 0.08,
@@ -149,13 +150,13 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
                             eventDetail: _createEventRoomViewModel.eventDescriptionController.text,
                             eventDate: _createEventRoomViewModel.eventDateController.text,
                             eventTime: _createEventRoomViewModel.eventTimeController.text,
-                            creatorUid: 'uid'!,
-                            namesurname: 'nameSurname'!,
-                            category: selectedCategoryList!,
-                            coordinate: 'coordinate',
+                            creatorUid: uid!,
+                            namesurname: nameSurname!,
+                            category: selectedCategory,
+                            coordinate: selectedPlaceCoordinate,
                             province: selectedProvince,
                             district: selectedDistrict,
-                            addressDetail: 'eventPlaceDescriptionController',
+                            addressDetail: _createEventRoomViewModel.eventPlaceDescriptionController.text,
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

@@ -143,69 +143,72 @@ class UserIsCreatorUI extends StatelessWidget {
                 ),
                 const HeightBox(height: 5),
                 const HeightBox(height: 10),
-                Container(
-                  height: 40,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.event.categories.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        height: 40,
-                        width: 90,
-                        decoration: BoxDecoration(
-                          color: buttonColor2,
-                          borderRadius: BorderRadius.circular(13),
-                        ),
-                        child: Center(
-                          child: Text(
-                            widget.event.categories[index].name,
-                            style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                // Container(
+                //   height: 40,
+                //   width: MediaQuery.of(context).size.width,
+                //   child: ListView.builder(
+                //     scrollDirection: Axis.horizontal,
+                //     itemCount: widget.event.categories.length,
+                //     itemBuilder: (context, index) {
+                //       return Container(
+                //         height: 40,
+                //         width: 90,
+                //         decoration: BoxDecoration(
+                //           color: buttonColor2,
+                //           borderRadius: BorderRadius.circular(13),
+                //         ),
+                //         child: Center(
+                //           child: Text(
+                //             widget.event.categories,
+                //             style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
+                //           ),
+                //         ),
+                //       );
+                //     },
+                //   ),
+                // ),
+                Text('${widget.event.approvedUsers.length.toString()} Kişi Katıldı', style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500)),
+
                 const HeightBox(height: 15),
-                Container(
-                    height: 150,
-                    width: MediaQuery.sizeOf(context).width,
-                    decoration: BoxDecoration(
-                      color: buttonColor2,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Icon(Icons.location_city),
-                            Icon(Icons.people),
-                          ],
-                        ),
-                        //ince bir çizgi çekmek için
-                        Container(
-                          height: 1,
-                          width: MediaQuery.sizeOf(context).width,
-                          color: Colors.grey[800],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              widget.event.province + ' / ' + widget.event.district,
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(widget.event.approvedUsers.length.toString() + 'Katılımcı: '),
-                          ],
-                        )
-                      ],
-                    )),
+                // Container(
+                //   height: 150,
+                //   width: MediaQuery.sizeOf(context).width,
+                //   decoration: BoxDecoration(
+                //     color: buttonColor2,
+                //     borderRadius: BorderRadius.circular(15),
+                //   ),
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //         children: [
+                //           Icon(Icons.location_city),
+                //           Icon(Icons.people),
+                //         ],
+                //       ),
+                //       //ince bir çizgi çekmek için
+                //       Container(
+                //         height: 1,
+                //         width: MediaQuery.sizeOf(context).width,
+                //         color: Colors.grey[800],
+                //       ),
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //         children: [
+                //           Text(
+                //             widget.event.province + ' / ' + widget.event.district,
+                //             style: TextStyle(
+                //               color: Colors.grey,
+                //               fontSize: 14,
+                //             ),
+                //           ),
+                //           Text(widget.event.approvedUsers.length.toString() + 'Katılımcı: '),
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
                 const HeightBox(height: 15),
                 Text(
                   'Açıklama',
@@ -351,7 +354,7 @@ class UserisPendingUI extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            widget.event.categories[index].name,
+                            widget.event.categories[index],
                             style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -553,7 +556,7 @@ class UserisApprovedUI extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            widget.event.categories[index].name,
+                            widget.event.categories,
                             style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -751,7 +754,7 @@ class UserisNotCreatorUI extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            widget.event.categories[index].name,
+                            widget.event.categories[index],
                             style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),
                           ),
                         ),

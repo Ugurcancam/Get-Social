@@ -29,7 +29,14 @@ class _CategoryViewState extends State<CategoryView> {
               itemBuilder: (context, index) {
                 final category = snapshot.data![index];
                 return InkWell(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => EventsByCategoryView())),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EventsByCategoryView(
+                        categoryName: category.name,
+                      ),
+                    ),
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.teal[100],

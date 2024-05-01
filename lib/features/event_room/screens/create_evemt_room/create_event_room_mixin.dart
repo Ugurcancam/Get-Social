@@ -18,8 +18,8 @@ mixin CreateEventRoomPageMixin on State<CreateEventRoomPage> {
   final CreateEventRoomViewModel _createEventRoomViewModel = CreateEventRoomViewModel();
 
   //Provider
-  String? get nameSurname => Provider.of<UserProvider>(context).namesurname;
-  String? get uid => Provider.of<UserProvider>(context).uid;
+  String? get nameSurname => Provider.of<UserProvider>(context, listen: false).namesurname;
+  String? get uid => Provider.of<UserProvider>(context, listen: false).uid;
 
   //Variables for selecting Province and District
   List<String> ilcelerr = [];
@@ -28,6 +28,7 @@ mixin CreateEventRoomPageMixin on State<CreateEventRoomPage> {
 
   //Variables for selecting Category
   late List<String>? selectedCategoryList;
+  late String selectedCategory;
 
   //bloc
   late CreateRoomBloc _createRoomBloc;

@@ -14,14 +14,33 @@ class EventRoomService {
 
   //Get events by category
   Future<List<EventRoomModel>> getEventRoomsByCategory({required String category}) async {
-    final snapshot = await _firestore.collection('event_rooms').where('category', arrayContains: category).get();
+    final snapshot = await _firestore.collection('event_rooms').where('category', isEqualTo: category).get();
+    if (snapshot.docs.isEmpty) {
+      print('Belirtilen kategoride etkinlik bulunamadı.');
+    }
+    if (snapshot.docs.isNotEmpty) {
+      print(snapshot.docs.length.toString() + ' adet etkinlik bulundu.');
+    }
     final eventRoomData = snapshot.docs.map((doc) => EventRoomModel.fromSnapshot(doc, doc.id)).toList();
     return eventRoomData;
   }
 
-  Future<void> createRoom({required String eventName, required String eventDetail, required String eventDate, required String eventTime, required String creatorUid, required String namesurname, required String coordinate, required String province, required String district, required String addressDetail, required List<String> category}) async {
+  //Get events by province
+  Future<List<EventRoomModel>> getEventRoomsByProvince({required String province}) async {
+    final snapshot = await _firestore.collection('event_rooms').where('province', isEqualTo: province).get();
+    if (snapshot.docs.isEmpty) {
+      print('Belirtilen ilde etkinlik bulunamadı.');
+    }
+    if (snapshot.docs.isNotEmpty) {
+      print(snapshot.docs.length.toString() + ' adet etkinlik bulundu.');
+    }
+    final eventRoomData = snapshot.docs.map((doc) => EventRoomModel.fromSnapshot(doc, doc.id)).toList();
+    return eventRoomData;
+  }
+
+  Future<void> createRoom({required String eventName, required String eventDetail, required String eventDate, required String category, required String eventTime, required String creatorUid, required String namesurname, required String coordinate, required String province, required String district, required String addressDetail}) async {
     // Kategorileri isimlerle eşleştirilmiş bir harita oluştur
-    List<Map<String, String>> categoryList = category.map((categoryName) => {'name': categoryName}).toList();
+    // List<Map<String, String>> categoryList = category.map((categoryName) => {'name': categoryName}).toList();
 
     final eventData = {
       'eventName': eventName,
@@ -34,7 +53,7 @@ class EventRoomService {
         {'uid': creatorUid, 'namesurname': namesurname},
       ],
       'pending_approval_users': [],
-      'category': categoryList,
+      'category': category,
       'coordinate': coordinate,
       'province': province,
       'district': district,
