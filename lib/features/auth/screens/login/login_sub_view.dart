@@ -279,21 +279,36 @@ class BuildEmailTextField extends StatelessWidget {
     return Container(
       width: width * 0.82,
       height: height * 0.08,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: const Color.fromRGBO(49, 62, 85, 0.78)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: const Color.fromRGBO(49, 62, 85, 0.78),
+      ),
       child: Center(
-        child: TextFormField(
-          style: TextStyle(color: thirdTextColor),
-          keyboardType: TextInputType.emailAddress,
-          validator: loginViewModel.validateEmail,
-          controller: emailController,
-          decoration: const InputDecoration(
-            hintText: 'E-posta',
-            hintStyle: TextStyle(
+        child: Row(
+          children: [
+            const SizedBox(width: 16),
+            Icon(
+              Icons.email_outlined,
               color: Colors.white,
             ),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(left: 16),
-          ),
+            SizedBox(width: 8),
+            Expanded(
+              child: TextFormField(
+                style: TextStyle(color: thirdTextColor),
+                keyboardType: TextInputType.emailAddress,
+                validator: loginViewModel.validateEmail,
+                controller: emailController,
+                decoration: const InputDecoration(
+                  hintText: 'E-posta',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(left: 16),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

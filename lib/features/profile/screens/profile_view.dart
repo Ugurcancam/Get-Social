@@ -14,12 +14,25 @@ class Profile extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: CircleAvatar(radius: 50, backgroundImage: NetworkImage('https://source.unsplash.com/random/200x200?sig=1')),
-            title: Text('Turan Kaya', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            subtitle: Text('turankaya@gmail.com'),
-          ),
+          Column(children: [
+            Container(
+              margin: EdgeInsets.only(top: 50),
+              child: CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage('assets/images/img_no_profile_pic.png'),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Kullanıcı Adı',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ]),
           const SizedBox(
             height: 25,
           ),

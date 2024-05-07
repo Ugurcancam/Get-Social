@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
             routes: AppRoutes.routes,
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
+              fontFamily: 'SFProRegular',
               useMaterial3: true,
             ),
             home: snapshot.data!.emailVerified ? const BottomNavbar() : const VerifyEmailPage(),

@@ -44,68 +44,66 @@ class _HomePageState extends State<HomePage> with HomePageMixin {
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               elevation: 0,
-              title: Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: Row(
-                  children: [
-                    if (user.profilePhotoURL != '')
-                      CircleAvatar(
+              leading: user.profilePhotoURL != ''
+                  ? Container(
+                      margin: EdgeInsets.only(left: 25),
+                      child: CircleAvatar(
                         backgroundImage: NetworkImage(
                           user.profilePhotoURL ?? 'https://via.placeholder.com/200',
                         ),
-                        radius: 25, // Increase the radius to make the image bigger
-                      )
-                    else
-                      Image.asset(
-                        Assets.images.imgNoProfilePic.path,
-                        width: 50,
-                        height: 50,
+                        radius: 5, // Increase the radius to make the image bigger
                       ),
-                    const SizedBox(
-                      width: 10,
+                    )
+                  : Image.asset(
+                      Assets.images.imgNoProfilePic.path,
+                      width: 50,
+                      height: 50,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Hoş Geldin,', style: const TextStyle(fontSize: 17, color: Colors.black)),
-                        Text(
-                          user.namesurname,
-                          style: const TextStyle(
-                            fontSize: 17,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
+              title: Center(
+                  child: Column(
+                children: [
+                  Text(
+                    'Mevcut Konum',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey,
                     ),
-                  ],
-                ),
-              ),
-              actions: [
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 1, color: ColorName.buttonBorder),
-                    color: ColorName.buttonBackground,
                   ),
-                  width: width * 0.4,
-                  child: Row(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.location_on,
-                          color: ColorName.buttonText,
-                        ),
-                        onPressed: () {},
+                      Icon(
+                        Icons.location_on,
+                        color: Colors.black,
+                        size: 18,
+                      ),
+                      const SizedBox(
+                        width: 5,
                       ),
                       Text(
                         user.province,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          color: ColorName.buttonText,
+                        style: TextStyle(
+                          fontSize: 19,
+                          color: Colors.black,
                         ),
                       ),
                     ],
+                  ),
+                ],
+              )),
+              actions: [
+                Container(
+                  margin: EdgeInsets.only(right: 20),
+                  width: width * 0.13,
+                  height: height * 0.05,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[300],
+                  ),
+                  child: Icon(
+                    Icons.notifications_active_outlined,
+                    size: 25,
+                    color: Colors.black,
                   ),
                 ),
               ],
@@ -129,6 +127,7 @@ class _HomePageState extends State<HomePage> with HomePageMixin {
                   const SizedBox(
                     height: 20,
                   ),
+
                   Container(
                     height: height * 0.35,
                     child: ListView.builder(
@@ -147,15 +146,18 @@ class _HomePageState extends State<HomePage> with HomePageMixin {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                ),
-                                child: Image.network(
-                                  'https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=2524&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                  child: Image.network(
+                                    'https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=2524&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -168,15 +170,38 @@ class _HomePageState extends State<HomePage> with HomePageMixin {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.calendar_month_rounded, color: Colors.black, size: 20),
-                                    Text('${event.eventDate},${event.eventTime}', style: TextStyle(fontSize: 16, color: Colors.black)),
-                                  ],
-                                ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(right: 5),
+                                      child: CircleAvatar(
+                                        radius: 15,
+                                        backgroundImage: NetworkImage('https://images.unsplash.com/photo-1505236858219-8359eb29e329?q=80&w=2524&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 5,
+                                    child: Text(
+                                      '+ ${event.approvedUsers.length.toString()} kişi katıldı',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
+                              // Padding(
+                              //   padding: EdgeInsets.only(left: 5),
+                              //   child: Row(
+                              //     children: [
+                              //       Icon(Icons.calendar_month_rounded, color: Colors.black, size: 20),
+                              //       Text('${event.eventDate},${event.eventTime}', style: TextStyle(fontSize: 16, color: Colors.black)),
+                              //     ],
+                              //   ),
+                              // ),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -532,34 +557,59 @@ class SearchForEvents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height * 0.06,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.grey[200],
-      ),
-      child: const Row(
-        children: [
-          SizedBox(
-            width: 10,
-          ),
-          Icon(
-            Icons.search,
-            color: Colors.black,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            'Hangi etkinliğe katılmak istersin?',
-            style: TextStyle(
-              fontSize: 17,
-              color: Colors.black,
+    return Row(
+      children: [
+        Expanded(
+          flex: 6,
+          child: Container(
+            width: width,
+            height: height * 0.06,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey[400]!),
+              borderRadius: BorderRadius.circular(20),
+              // color: Colors.grey[200],
+            ),
+            child: const Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(
+                  Icons.search,
+                  color: Colors.blue,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Etkinlik Ara',
+                  style: TextStyle(
+                    fontFamily: 'SFProRegular',
+                    fontSize: 17,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          child: Container(
+            height: height * 0.06,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.blue,
+            ),
+            child: Icon(
+              Icons.filter_list_sharp,
+              color: Colors.white,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
