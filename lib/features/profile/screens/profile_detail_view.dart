@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codegen/codegen.dart';
+import 'package:etkinlikapp/core/manager/file_manager.dart';
 import 'package:etkinlikapp/features/profile/domain/services/user_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,6 +34,7 @@ class _ProfileDetailState extends State<ProfileDetail> with ProfileDetailMixin {
               children: [
                 if (user!.profilePhotoURL != '')
                   InkWell(
+                    onTap: _pickFile,
                     child: Center(
                       child: CircleAvatar(
                         radius: 50,

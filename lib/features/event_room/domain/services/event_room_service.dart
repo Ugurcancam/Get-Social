@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etkinlikapp/features/event_room/domain/models/event_rooms_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class EventRoomService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -36,6 +37,36 @@ class EventRoomService {
     }
     final eventRoomData = snapshot.docs.map((doc) => EventRoomModel.fromSnapshot(doc, doc.id)).toList();
     return eventRoomData;
+  }
+
+  //Get events if it did not start and current users uid in approved_users list
+  Future<List<EventRoomModel>> getEventRoomsByLoggedUser() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final snapshot = await _firestore.collection('event_rooms').get();
+    final eventRooms = snapshot.docs.map((doc) => EventRoomModel.fromSnapshot(doc, doc.id)).where((eventRoom) => eventRoom.approvedUsers.any((user) => user.uid == uid) && eventRoom.isStarted == false).toList();
+
+    if (eventRooms.isEmpty) {
+      print('Katıldığınız etkinlik bulunamadı.');
+    } else {
+      print('${eventRooms.length} adet etkinlik bulundu.');
+    }
+
+    return eventRooms;
+  }
+
+  //Get events if it expired and current users uid in approved_users list
+  Future<List<EventRoomModel>> getExpiredEventRoomsByLoggedUser() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final snapshot = await _firestore.collection('event_rooms').get();
+    final eventRooms = snapshot.docs.map((doc) => EventRoomModel.fromSnapshot(doc, doc.id)).where((eventRoom) => eventRoom.approvedUsers.any((user) => user.uid == uid) && eventRoom.isStarted == true).toList();
+
+    if (eventRooms.isEmpty) {
+      print('Katıldığınız etkinlik bulunamadı.');
+    } else {
+      print('${eventRooms.length} adet etkinlik bulundu.');
+    }
+
+    return eventRooms;
   }
 
   Future<void> createRoom({required String eventName, required String eventDetail, required String eventDate, required String category, required String eventTime, required String creatorUid, required String namesurname, required String coordinate, required String province, required String district, required String addressDetail}) async {

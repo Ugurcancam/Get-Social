@@ -1,9 +1,9 @@
 import 'package:etkinlikapp/core/constants/constants.dart';
 import 'package:etkinlikapp/features/categories/screens/category_view.dart';
-import 'package:etkinlikapp/features/event_room/screens/create_evemt_room/create_event_room_view.dart';
-import 'package:etkinlikapp/features/event_room/screens/event_rooms_view.dart';
+import 'package:etkinlikapp/features/event_room/screens/create_event_room/create_event_room_view.dart';
 import 'package:etkinlikapp/features/home/screens/homepage_view.dart';
 import 'package:etkinlikapp/features/profile/screens/profile_view.dart';
+import 'package:etkinlikapp/features/users_events/screens/users_events_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -21,7 +21,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     const HomePage(),
     const CategoryView(),
     const CreateEventRoomPage(),
-    const EventRooms(),
+    const UsersEventsView(),
     const Profile(), // Replace with your Profile page widget
   ];
 

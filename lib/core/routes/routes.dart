@@ -4,7 +4,7 @@ import 'package:etkinlikapp/features/auth/screens/reset_password_view.dart';
 import 'package:etkinlikapp/features/auth/screens/sign_in_options_view.dart';
 import 'package:etkinlikapp/features/auth/screens/verify_mail/verify_email_view.dart';
 import 'package:etkinlikapp/features/bottom_navbar/bottom_navbar.dart';
-import 'package:etkinlikapp/features/event_room/screens/create_evemt_room/create_event_room_view.dart';
+import 'package:etkinlikapp/features/event_room/screens/create_event_room/create_event_room_view.dart';
 import 'package:etkinlikapp/features/profile/screens/profile_detail_view.dart';
 import 'package:flutter/material.dart';
 

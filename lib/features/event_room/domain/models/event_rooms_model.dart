@@ -11,6 +11,7 @@ final class EventRoomModel {
   final String district;
   final String province;
   final String? docId;
+  final bool isStarted;
   final List<AppRovedUsers> approvedUsers;
   final List<PendingApprovalUsers> pendingApprovalUsers;
   final String categories;
@@ -29,6 +30,7 @@ final class EventRoomModel {
     required this.coordinate,
     required this.district,
     required this.province,
+    required this.isStarted,
   });
 
   factory EventRoomModel.fromSnapshot(DocumentSnapshot snapshot, String docId) {
@@ -45,6 +47,7 @@ final class EventRoomModel {
       approvedUsers: (snapshot['approved_users'] as List).map((e) => AppRovedUsers.fromMap(e as Map<String, dynamic>)).toList(),
       pendingApprovalUsers: (snapshot['pending_approval_users'] as List<dynamic>).map((e) => PendingApprovalUsers.fromMap(e as Map<String, dynamic>)).toList(),
       categories: (snapshot['category'] as String),
+      isStarted: snapshot['isStarted'] as bool,
       docId: docId,
     );
   }

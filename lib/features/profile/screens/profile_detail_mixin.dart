@@ -5,22 +5,19 @@ mixin ProfileDetailMixin on State<ProfileDetail> {
   final email = FirebaseAuth.instance.currentUser!.email;
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
+  final FileManager _fileManager = FileManager();
+
   String? _filePath;
   String? _downloadURL;
 
-  Future<void> _pickFile() async {
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles();
+  void _onFilePicked(String? filePathh) {
+    setState(() {
+      _fileManager.filePath = filePathh;
+    });
+  }
 
-      if (result != null) {
-        setState(() {
-          _filePath = result.files.single.path;
-        });
-      }
-    } catch (e) {
-      // Handle file picking error
-      print('Error picking file: $e');
-    }
+  Future<void> _pickFile() async {
+    await _fileManager.pickFile(_onFilePicked);
   }
 
   Future<void> _uploadFile() async {
