@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
-import 'package:etkinlikapp/features/auth/domain/view_models/verify_email_view_model.dart';
-import 'package:etkinlikapp/features/bottom_navbar/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

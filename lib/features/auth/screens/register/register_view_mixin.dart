@@ -8,6 +8,11 @@ mixin RegisterViewMixin on State<RegisterView> {
   //Service
   final ProvinceService provinceService = ProvinceService();
 
+  // Şifre görünürlüğü kontrolü için
+  bool isPasswordVisible = false;
+  // Şifre doğruluğu kontrolündeki şifre görünürlüğü kontrolü için
+  bool isCheckPasswordVisible = false;
+
   //Variables for selecting Province and District
   late List<String> provinces;
   List<String> ilcelerr = [];
@@ -32,6 +37,20 @@ mixin RegisterViewMixin on State<RegisterView> {
   // Sayfa boyutlarını almak için
   double get width => MediaQuery.of(context).size.width;
   double get height => MediaQuery.of(context).size.height;
+
+  // Şifre görünürlüğü kontrolü için
+  void controlPasswordVisibility() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
+  }
+
+  // Şifre doğruluğu kontrolündeki şifre görünürlüğü kontrolü için
+  void controlCheckPasswordVisibility() {
+    setState(() {
+      isCheckPasswordVisible = !isCheckPasswordVisible;
+    });
+  }
 
   @override
   void initState() {

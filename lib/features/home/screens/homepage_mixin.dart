@@ -15,6 +15,11 @@ mixin HomePageMixin on State<HomePage> {
   String? uid;
   String? namesurname;
 
+  // Variables for selecting Province and District
+  List<String> ilcelerr = [];
+  late String selectedProvince;
+  late String selectedDistrict;
+
   // Kullanıcı bilgilerini Local'den getir
   Future<void> loadUserDataFromStorage() async {
     email = await localDataService.getStringData('userEmail');

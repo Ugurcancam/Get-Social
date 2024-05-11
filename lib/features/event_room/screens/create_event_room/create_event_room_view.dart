@@ -1,7 +1,6 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
-import 'package:etkinlikapp/core/manager/location_permission_manager.dart';
-import 'package:etkinlikapp/core/services/il_ilce_service.dart';
-import 'package:etkinlikapp/core/services/location_service.dart';
+import 'package:codegen/gen/assets.gen.dart';
+import 'package:codegen/gen/colors.gen.dart';
 import 'package:etkinlikapp/core/widgets/custom_sizedbox_height.dart';
 import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
 import 'package:etkinlikapp/features/event_room/domain/models/event_categories_model.dart';
@@ -12,7 +11,7 @@ import 'package:etkinlikapp/features/event_room/widgets/create_room_custom_textf
 import 'package:etkinlikapp/features/event_room/widgets/create_room_custom_textfield_with_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -20,7 +19,15 @@ part 'create_event_room_mixin.dart';
 part 'create_event_room_subview.dart';
 
 class CreateEventRoomPage extends StatefulWidget {
+  final String coordinate;
+  final String selectedProvince;
+  final String selectedDistrict;
+  final String addressDetail;
   const CreateEventRoomPage({
+    required this.coordinate,
+    required this.selectedProvince,
+    required this.selectedDistrict,
+    required this.addressDetail,
     super.key,
   });
 
@@ -29,6 +36,9 @@ class CreateEventRoomPage extends StatefulWidget {
 }
 
 class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEventRoomPageMixin {
+  bool _isLoading = false;
+  bool _isLoadingComplete = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +48,37 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
       body: BlocBuilder<CreateRoomBloc, CreateRoomState>(
         bloc: _createRoomBloc,
         builder: (context, state) {
+          if (_isLoading) {
+            return Center(
+              child: LottieBuilder.asset(
+                Assets.json.animation.animationLoading.path,
+                repeat: _isLoading,
+                width: 200,
+                height: 200,
+                onLoaded: (p0) => navigateToHomeOnComplete,
+              ),
+            );
+          }
+          if (_isLoadingComplete) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LottieBuilder.asset(
+                    Assets.json.animation.animationLoadingSuccess.path,
+                    repeat: false,
+                    width: 200,
+                    height: 200,
+                    onLoaded: (p0) async {
+                      await navigateToHomeOnComplete();
+                    },
+                  ),
+                  const HeightBox(height: 20),
+                  const Text('Oda Oluşturuldu', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            );
+          }
           if (state is CreateRoomLoading) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -48,46 +89,25 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
             );
           } else if (state is CreateRoomSuccess) {
             final eventCategory = state.eventCategoriesData;
-            final provinces = state.provinces;
             return SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Column(
                   children: [
-                    if (_currentP == null)
-                      GoogleMapShimmerLoading(width: width)
-                    else
-                      Container(
-                        height: 250,
-                        child: GoogleMap(
-                          initialCameraPosition: CameraPosition(
-                            target: _currentP!,
-                            zoom: 12,
-                          ),
-                          markers: {
-                            Marker(
-                              markerId: const MarkerId('_currentLocation'),
-                              position: _currentP!,
-                            ),
-                          },
-                          onTap: (LatLng latLng) {
-                            final lat = latLng.latitude;
-                            final long = latLng.longitude;
-                            setState(() {
-                              _currentP = latLng;
-                              selectedPlaceCoordinate = '$lat,$long';
-                            });
-                            //Koordinatlar alındıktan sonra adresi almak için
-                            LocationService().getPlaceDetails(lat, long, setAddress);
-                          },
-                        ),
-                      ),
                     const HeightBox(height: 13),
-                    CustomTextFormField(width: width, height: height, hintText: 'Event Adı', controller: _createEventRoomViewModel.eventNameController),
+                    CustomTextFormField(icon: Icons.abc, hintText: 'Event Adı', controller: _createEventRoomViewModel.eventNameController),
                     const HeightBox(height: 13),
-                    CustomTextFormField(width: width, height: height, hintText: 'Event Açıklaması', controller: _createEventRoomViewModel.eventDescriptionController),
+                    CustomTextFormField(icon: Icons.description_outlined, hintText: 'Event Açıklaması', controller: _createEventRoomViewModel.eventDescriptionController),
                     const HeightBox(height: 13),
                     CustomDropdown(
+                      validator: (value) => value == null ? "Lütfen Kategori Seçiniz" : null,
+                      hintText: 'Kategori',
+                      decoration: CustomDropdownDecoration(
+                        closedFillColor: Colors.grey[200],
+                        hintStyle: TextStyle(color: Colors.black, fontSize: 18),
+                        headerStyle: TextStyle(color: Colors.black, fontSize: 18),
+                      ),
                       items: eventCategory.map((e) => e.name).toList(),
                       onChanged: (value) {
                         selectedCategory = value;
@@ -98,75 +118,38 @@ class _CreateEventRoomPageState extends State<CreateEventRoomPage> with CreateEv
                     CustomTextFieldWithIcon(width: width, height: height, hintText: 'Event Tarihi', controller: _createEventRoomViewModel.eventDateController, icon: Icons.date_range, onPressed: _selectDate),
                     const SizedBox(height: 13),
                     CustomTextFieldWithIcon(width: width, height: height, hintText: 'Event Saati', controller: _createEventRoomViewModel.eventTimeController, icon: Icons.access_time, onPressed: _selectTime),
-                    const SizedBox(height: 13),
-                    CustomTextFormField(width: width, height: height, hintText: 'Adres Detayı', controller: _createEventRoomViewModel.eventPlaceDescriptionController),
-                    const SizedBox(height: 13),
-                    CustomDropdown<String>(
-                      decoration: const CustomDropdownDecoration(
-                        closedFillColor: Color.fromRGBO(49, 62, 85, 0.78),
-                      ),
-                      hintText: 'Şehir Seçiniz',
-                      items: provinces.toList(),
-                      onChanged: (province) async {
-                        final ilceler = await ProvinceService().getDisctricts(province);
+                    const HeightBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () async {
                         setState(() {
-                          ilcelerr = ilceler;
-                          selectedProvince = province;
+                          _isLoading = true;
+                        });
+                        await _eventRoomService.createRoom(
+                          eventName: _createEventRoomViewModel.eventNameController.text,
+                          eventDetail: _createEventRoomViewModel.eventDescriptionController.text,
+                          eventDate: _createEventRoomViewModel.eventDateController.text,
+                          eventTime: _createEventRoomViewModel.eventTimeController.text,
+                          creatorUid: uid!,
+                          namesurname: nameSurname!,
+                          category: selectedCategory,
+                          coordinate: widget.coordinate,
+                          province: widget.selectedProvince,
+                          district: widget.selectedDistrict,
+                          addressDetail: widget.addressDetail,
+                        );
+                        setState(() {
+                          _isLoading = false;
+                          _isLoadingComplete = true;
                         });
                       },
-                    ),
-                    const HeightBox(height: 20),
-                    if (ilcelerr.isNotEmpty)
-                      CustomDropdown<String>(
-                        hintText: 'İlçe Seçiniz',
-                        items: ilcelerr.toList(),
-                        onChanged: (district) {
-                          setState(() {
-                            selectedDistrict = district;
-                          });
-                        },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorName.primary,
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    // CreateRoomButton(
-                    //   width: width,
-                    //   height: height,
-                    //   eventRoomService: _eventRoomService,
-                    //   roomViewModel: _createEventRoomViewModel,
-                    //   uid: uid,
-                    //   nameSurname: nameSurname,
-                    //   selectedCategoryListt: selectedCategoryList,
-                    //   coordinate: selectedPlaceCoordinate,
-                    //   selectedProvince: selectedProvince,
-                    //   selectedDistrict: selectedDistrict,
-                    //   eventPlaceDescriptionController: _createEventRoomViewModel.eventPlaceDescriptionController,
-                    // ),
-
-                    Container(
-                      width: width,
-                      height: height * 0.08,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await _eventRoomService.createRoom(
-                            eventName: _createEventRoomViewModel.eventNameController.text,
-                            eventDetail: _createEventRoomViewModel.eventDescriptionController.text,
-                            eventDate: _createEventRoomViewModel.eventDateController.text,
-                            eventTime: _createEventRoomViewModel.eventTimeController.text,
-                            creatorUid: uid!,
-                            namesurname: nameSurname!,
-                            category: selectedCategory,
-                            coordinate: selectedPlaceCoordinate,
-                            province: selectedProvince,
-                            district: selectedDistrict,
-                            addressDetail: _createEventRoomViewModel.eventPlaceDescriptionController.text,
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Room created successfully'),
-                              backgroundColor: Colors.green,
-                            ),
-                          );
-                        },
-                        child: const Text('Odayı Oluştur'),
-                      ),
+                      child: const Text('Odayı Oluştur', style: TextStyle(fontSize: 18, color: Colors.white)),
                     )
                   ],
                 ),

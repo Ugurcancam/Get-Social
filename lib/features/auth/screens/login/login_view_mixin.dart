@@ -7,10 +7,8 @@ mixin LoginViewMixin on State<LoginView> {
 
   // Şifre görünürlüğü kontrolü için
   bool isPasswordVisible = false;
-  // Şartlar kabul edildi mi kontrolü için
-  bool isTermsAccepted = false;
-  // Şartlar kabul edilmezse hata mesajı göstermek için
-  bool isTermsError = false;
+  // Beni hatırla seçeneği için
+  bool isRememberMeChecked = false;
   // Textfield'lar için controller'lar
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();

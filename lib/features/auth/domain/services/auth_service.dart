@@ -9,12 +9,13 @@ class AuthService {
   final firebaseAuth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
 
-  Future<void> signUp(BuildContext context, {required String nameSurname, required String email, required String password, required String dateOfBirth, required String province, required String district}) async {
+  Future<void> signUp(BuildContext context, {required String nameSurname, required String email, required String password, required String dateOfBirth, required String province, required String district, required String profilePhotoUrl}) async {
     final navigator = Navigator.of(context);
     try {
       final userCredential = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       if (userCredential.user != null) {
         await _registerUser(
+          profilePhotoUrl: profilePhotoUrl,
           userId: userCredential.user!.uid,
           nameSurname: nameSurname,
           email: email,
@@ -30,7 +31,7 @@ class AuthService {
     }
   }
 
-  Future<void> _registerUser({required String userId, required String nameSurname, required String email, required String dateOfBirth, required String province, required String district}) async {
+  Future<void> _registerUser({required String userId, required String nameSurname, required String email, required String dateOfBirth, required String province, required String district, required String profilePhotoUrl}) async {
     await userCollection.doc(userId).set({
       'uid': userId,
       'email': email,
@@ -38,6 +39,7 @@ class AuthService {
       'dateOfBirth': dateOfBirth,
       'province': province,
       'district': district,
+      'profilePhotoURL': profilePhotoUrl,
     });
   }
 

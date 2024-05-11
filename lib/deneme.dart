@@ -1,169 +1,149 @@
+import 'package:codegen/codegen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class LoginPage extends StatefulWidget {
+class EventDetail extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<EventDetail> createState() => EventDetailState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  bool _agreeToTerms = false;
-
+class EventDetailState extends State<EventDetail> {
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(20.0),
+      appBar: AppBar(
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text('Etkinlik Detayı', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.share_outlined),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Merhaba,',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image.asset('assets/images/onboarding.jpg'),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                height: 25,
+                width: width * 0.2,
+                decoration: BoxDecoration(
+                  color: ColorName.third,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.calendar_today,
+                      size: 15,
+                      color: ColorName.primary,
+                    ),
+                    const SizedBox(width: 5),
+                    Text('Eğlence', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                  ],
                 ),
               ),
-              const Text(
-                'Tekrar hoşgeldiniz.',
+              const SizedBox(height: 20),
+              Text(
+                'National Geographic Etkinliği',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
                 ),
               ),
-              // App Logo (Optional)
-              // FlutterLogo(size: 150.0),
-              SizedBox(height: 20.0),
-              _buildEmailField(),
-              SizedBox(height: 15.0),
-
-              // TextField(
-              //   keyboardType: TextInputType.emailAddress,
-              //   decoration: InputDecoration(
-              //     filled: true,
-              //     fillColor: Colors.white.withOpacity(0.5),
-              //     hintText: "Email",
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(10),
-              //       borderSide: BorderSide(
-              //         color: Colors.transparent,
-              //       ),
-              //     ),
-              //     enabledBorder: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(10),
-              //       borderSide: BorderSide(
-              //         color: Colors.white,
-              //       ),
-              //     ),
-              //     focusedBorder: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(10),
-              //       borderSide: BorderSide(
-              //         color: Colors.blue,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-
-              _buildPasswordField(),
-              SizedBox(height: 15.0),
-              _buildForgotPasswordAndTerms(),
-              SizedBox(height: 50.0),
-              _buildLoginButton(),
-              SizedBox(height: 10.0),
-
-              const SizedBox(height: 100),
+              const SizedBox(height: 10),
               Row(
                 children: [
-                  Expanded(
-                    child: Divider(
-                      thickness: 0.5,
-                      color: Colors.black,
-                    ),
+                  Icon(
+                    Icons.access_time,
+                    size: 20,
+                    color: ColorName.primary,
                   ),
-                  const SizedBox(width: 10),
-                  Text(
-                    'veya',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Divider(
-                      thickness: 0.5,
-                      color: Colors.black,
-                    ),
-                  )
+                  const SizedBox(width: 5),
+                  Text('${'event.eventDate'}, - ${'event.eventTime'}', style: TextStyle(fontSize: 18, color: Colors.black)),
                 ],
               ),
-              const SizedBox(height: 30),
-
+              const SizedBox(height: 10),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Butona tıklama işlemi (şu anda boş)
-                    },
-                    child: Container(
-                      width: 30, // Container genişliği
-                      height: 60, // Container yüksekliği
-                      child: Center(
-                        child: Image.asset("assets/images/google_icon.png", height: 30),
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero, // Buton içeriğinin etrafındaki boşluğu kaldırır
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13),
-                      ),
-                    ),
+                  Icon(
+                    Icons.location_on_outlined,
+                    size: 20,
+                    color: ColorName.primary,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Butona tıklama işlemi (şu anda boş)
-                    },
-                    child: Container(
-                      width: 30, // Container genişliği
-                      height: 60, // Container yüksekliği
-                      child: Center(
-                        child: Image.asset("assets/images/apple_icon.png", height: 30),
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero, // Buton içeriğinin etrafındaki boşluğu kaldırır
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13),
-                      ),
-                    ),
-                  ),
+                  const SizedBox(width: 5),
+                  Text('${'event.province'}, ${'event.district'}', style: TextStyle(fontSize: 18, color: Colors.black)),
                 ],
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Hesabın yok mu?",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                    ),
+                  Icon(
+                    Icons.group_add_outlined,
+                    size: 20,
+                    color: ColorName.primary,
                   ),
-                  TextButton(
-                    onPressed: () {
-                      // Butona tıklama işlemi (şu anda boş)
-                    },
-                    child: Text(
-                      "Kayıt Ol",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 14,
+                  const SizedBox(width: 5),
+                  Text(
+                    '234 Katılımcı',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  Text('Davet Et', style: TextStyle(fontSize: 18, color: ColorName.primary)),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Text('Etkinlik Açıklaması', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10),
+              Text(
+                'National Geographic Etkinliği',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 15),
+              Text('Organizatör', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundImage: AssetImage('assets/images/onboarding.jpg'),
+                  ),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'National Geographic',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                    ),
+                      Text(
+                        'National Geographic',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -171,100 +151,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildEmailField() {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: "Email",
-        prefixIcon: Icon(Icons.email),
-        filled: true,
-        fillColor: Colors.grey[200],
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.transparent),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.transparent),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Theme.of(context).primaryColor),
-        ),
-      ),
-      keyboardType: TextInputType.emailAddress,
-    );
-  }
-
-  Widget _buildPasswordField() {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: "Şifre",
-        prefixIcon: Icon(Icons.lock),
-        filled: true,
-        fillColor: Colors.grey[200],
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.transparent),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.transparent),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Theme.of(context).primaryColor),
-        ),
-      ),
-      obscureText: true,
-    );
-  }
-
-  Widget _buildLoginButton() {
-    return ElevatedButton(
-      onPressed: () {
-        // Handle login logic here
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).primaryColor,
-        minimumSize: Size(double.infinity, 50.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-      ),
-      child: Text('Giriş Yap', style: TextStyle(fontSize: 18.0, color: Colors.white)),
-    );
-  }
-
-  Widget _buildForgotPasswordAndTerms() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Switch(
-              value: _agreeToTerms,
-              onChanged: (value) {
-                setState(() {
-                  _agreeToTerms = value;
-                });
-              },
-            ),
-            Text("Beni Hatırla"),
-          ],
-        ),
-        TextButton(
-          onPressed: () {
-            // Handle forgot password logic
-          },
-          child: Text(
-            "Şifremi Unuttum?",
-            style: TextStyle(color: Colors.grey),
-          ),
-        ),
-      ],
     );
   }
 }

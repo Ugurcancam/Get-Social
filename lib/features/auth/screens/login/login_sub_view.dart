@@ -1,90 +1,276 @@
 part of 'login_view.dart';
 
-class BuildPasswordTextField extends StatelessWidget {
-  const BuildPasswordTextField({
-    required this.width,
-    required this.height,
-    required this.isPasswordVisible,
-    required this.passwordController,
+class EmailTextFormField extends StatelessWidget {
+  const EmailTextFormField({
+    required this.emaillController,
     required this.loginViewModel,
-    required this.onPressed,
     super.key,
   });
-  final VoidCallback onPressed;
-  final double width;
-  final double height;
-  final bool isPasswordVisible;
-  final TextEditingController passwordController;
+
+  final TextEditingController emaillController;
   final LoginViewModel loginViewModel;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width * 0.82,
-      height: height * 0.08,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: const Color.fromRGBO(49, 62, 85, 0.78),
+    return TextFormField(
+      controller: emaillController,
+      validator: (value) => loginViewModel.validateEmail(emaillController.text),
+      decoration: InputDecoration(
+        labelText: 'Email',
+        labelStyle: TextStyle(fontSize: 18),
+        prefixIcon: Icon(
+          Icons.email_outlined,
+          color: Colors.black,
+        ),
+        filled: true,
+        fillColor: Colors.grey[200],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        ),
       ),
-      child: Center(
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: TextFormField(
-                style: TextStyle(color: thirdTextColor),
-                obscureText: !isPasswordVisible,
-                controller: passwordController,
-                validator: loginViewModel.validatePassword,
-                decoration: const InputDecoration(
-                  hintText: 'Şifre',
-                  hintStyle: TextStyle(
-                    color: Colors.white,
-                  ),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(left: 16),
-                ),
-              ),
-            ),
-            const Spacer(),
-            Expanded(
-              child: IconButton(
-                onPressed: onPressed,
-                icon: isPasswordVisible ? const Icon(Icons.visibility, color: Colors.white) : const Icon(Icons.visibility_off, color: Colors.white),
-              ),
-            ),
-          ],
+      keyboardType: TextInputType.emailAddress,
+    );
+  }
+}
+
+class PasswordTextFormField extends StatelessWidget {
+  const PasswordTextFormField({
+    required this.passworddController,
+    required this.loginViewModel,
+    required this.isPasswordVisible,
+    required this.controlPasswordVisibility,
+    super.key,
+  });
+
+  final VoidCallback controlPasswordVisibility;
+  final TextEditingController passworddController;
+  final LoginViewModel loginViewModel;
+  final bool isPasswordVisible;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: passworddController,
+      validator: (value) => loginViewModel.validatePassword(passworddController.text),
+      obscureText: !isPasswordVisible,
+      decoration: InputDecoration(
+        labelText: 'Şifre',
+        labelStyle: TextStyle(fontSize: 18),
+        prefixIcon: Icon(
+          Icons.lock_outline_rounded,
+          color: Colors.black,
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+            color: Colors.grey,
+          ),
+          onPressed: controlPasswordVisibility,
+        ),
+        filled: true,
+        fillColor: Colors.grey[200],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
         ),
       ),
     );
   }
 }
 
-class ForgotPasswordText extends StatelessWidget {
-  const ForgotPasswordText({
+class LoginButton extends StatelessWidget {
+  const LoginButton({
+    required this.emailText,
+    required this.passwordText,
+    required this.loginFormKey,
+    super.key,
+  });
+
+  final String emailText;
+  final String passwordText;
+  final GlobalKey<FormState> loginFormKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        if (loginFormKey.currentState!.validate()) {
+          // Show loading widget for 2 seconds
+          final loadingCompleter = Completer<void>();
+          Timer(const Duration(seconds: 2), loadingCompleter.complete);
+          showLoadingAnimation(context);
+
+          // Execute sign-in logic after delay
+          await loadingCompleter.future;
+          await AuthService().signIn(context, email: emailText, password: passwordText);
+        }
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).primaryColor,
+        minimumSize: Size(double.infinity, 50),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: Text('Giriş Yap', style: TextStyle(fontSize: 18, color: Colors.white)),
+    );
+  }
+}
+
+class RememberMeAndForgotPassword extends StatefulWidget {
+  final void Function(bool) onRememberMeChanged;
+  final VoidCallback onForgotPasswordPressed;
+  final bool isRememberMeChecked;
+
+  const RememberMeAndForgotPassword({
+    required this.onRememberMeChanged,
+    required this.onForgotPasswordPressed,
+    required this.isRememberMeChecked,
+    super.key,
+  });
+
+  @override
+  _RememberMeAndForgotPasswordState createState() => _RememberMeAndForgotPasswordState();
+}
+
+class _RememberMeAndForgotPasswordState extends State<RememberMeAndForgotPassword> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Switch(
+              activeColor: ColorName.primary,
+              value: true,
+              onChanged: (bool value1) {},
+            ),
+            const Text(
+              'Beni Hatırla',
+              style: TextStyle(fontSize: 17),
+            ),
+          ],
+        ),
+        TextButton(
+          onPressed: widget.onForgotPasswordPressed,
+          child: Text(
+            'Şifremi Unuttum?',
+            style: TextStyle(fontSize: 17, color: ColorName.primary),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DividerWithText extends StatelessWidget {
+  const DividerWithText({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => showForgotPasswordBottomSheet(context),
-      child: Container(
-        alignment: Alignment.center,
-        child: const Text(
-          'Şifremi Unuttum',
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.white,
+    return const Row(
+      children: [
+        Expanded(
+          child: Divider(
+            thickness: 0.5,
+            color: Colors.black,
           ),
         ),
-      ),
+        SizedBox(width: 25),
+        Text(
+          'veya',
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 18,
+          ),
+        ),
+        SizedBox(width: 25),
+        Expanded(
+          child: Divider(
+            thickness: 0.5,
+            color: Colors.black,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class OtherLoginOptions extends StatelessWidget {
+  const OtherLoginOptions({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        LoginOptionsWidget(
+          path: Assets.images.googleIcon.path,
+        ),
+        LoginOptionsWidget(
+          path: Assets.images.appleIcon.path,
+        ),
+      ],
+    );
+  }
+}
+
+class NavigateToRegister extends StatelessWidget {
+  const NavigateToRegister({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Hesabın yok mu?',
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 18,
+          ),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pushNamed(context, '/register'),
+          child: Text(
+            'Kayıt Ol',
+            style: TextStyle(
+              color: ColorName.primary,
+              fontSize: 18,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
 
 void showForgotPasswordBottomSheet(BuildContext context) {
-  final TextEditingController forgotPasswordEmailController = TextEditingController();
+  final forgotPasswordEmailController = TextEditingController();
   showModalBottomSheet<void>(
     context: context,
     builder: (BuildContext context) {
@@ -159,158 +345,16 @@ void showForgotPasswordBottomSheet(BuildContext context) {
   );
 }
 
-class NavigateToRegisterPage extends StatelessWidget {
-  const NavigateToRegisterPage({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: InkWell(
-        onTap: () => Navigator.pushNamed(context, '/register'),
-        child: const Text.rich(
-          TextSpan(
-            text: 'Bir hesabınız yok mu? ',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-            ),
-            children: [
-              TextSpan(
-                text: 'Kayıt ol',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.deepPurple,
-                ),
-              ),
-            ],
-          ),
-        ),
+void showLoadingAnimation(BuildContext context) {
+  showDialog<void>(
+    context: context,
+    barrierDismissible: false, // Prevent user from dismissing while loading
+    builder: (context) => Center(
+      child: LoadingAnimationWidget.twistingDots(
+        leftDotColor: const Color(0xFF1A1A3F),
+        rightDotColor: const Color(0xFFEA3799),
+        size: 200,
       ),
-    );
-  }
-}
-
-class LoginButtonField extends StatelessWidget {
-  const LoginButtonField({
-    required this.formKey,
-    required this.valueByEmailController,
-    required this.valueByPasswordController,
-    required this.isTermsAccepted,
-    super.key,
-  });
-
-  final bool isTermsAccepted;
-  final GlobalKey<FormState> formKey;
-  final String valueByEmailController;
-  final String valueByPasswordController;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () async {
-        if (isTermsAccepted || formKey.currentState!.validate()) {
-          // Show loading widget for 2 seconds
-          final loadingCompleter = Completer<void>();
-          Timer(const Duration(seconds: 2), loadingCompleter.complete);
-          showLoadingAnimation(context);
-
-          // Execute sign-in logic after delay
-          await loadingCompleter.future;
-          await AuthService().signIn(context, email: valueByEmailController, password: valueByPasswordController);
-        }
-      },
-      child: Container(
-        width: 320,
-        height: 60,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: const Color.fromRGBO(95, 25, 242, 1),
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(width: 8),
-            Text(
-              'Giriş Yap',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void showLoadingAnimation(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // Prevent user from dismissing while loading
-      builder: (context) => Center(
-        child: LoadingAnimationWidget.twistingDots(
-          leftDotColor: const Color(0xFF1A1A3F),
-          rightDotColor: const Color(0xFFEA3799),
-          size: 200,
-        ),
-      ),
-    );
-  }
-}
-
-class BuildEmailTextField extends StatelessWidget {
-  const BuildEmailTextField({
-    required this.width,
-    required this.height,
-    required this.loginViewModel,
-    required this.emailController,
-    super.key,
-  });
-
-  final double width;
-  final double height;
-  final LoginViewModel loginViewModel;
-  final TextEditingController emailController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width * 0.82,
-      height: height * 0.08,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: const Color.fromRGBO(49, 62, 85, 0.78),
-      ),
-      child: Center(
-        child: Row(
-          children: [
-            const SizedBox(width: 16),
-            Icon(
-              Icons.email_outlined,
-              color: Colors.white,
-            ),
-            SizedBox(width: 8),
-            Expanded(
-              child: TextFormField(
-                style: TextStyle(color: thirdTextColor),
-                keyboardType: TextInputType.emailAddress,
-                validator: loginViewModel.validateEmail,
-                controller: emailController,
-                decoration: const InputDecoration(
-                  hintText: 'E-posta',
-                  hintStyle: TextStyle(
-                    color: Colors.grey,
-                  ),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(left: 16),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+    ),
+  );
 }

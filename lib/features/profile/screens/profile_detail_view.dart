@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codegen/codegen.dart';
 import 'package:etkinlikapp/core/manager/file_manager.dart';
 import 'package:etkinlikapp/features/profile/domain/services/user_service.dart';
+import 'package:etkinlikapp/features/profile/screens/display_selected_image.dart';
+import 'package:etkinlikapp/features/profile/screens/select_profile_picture_view.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -23,6 +25,12 @@ class _ProfileDetailState extends State<ProfileDetail> with ProfileDetailMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushNamed(context, '/homepage');
+          },
+        ),
         title: const Text('Profilim'),
       ),
       body: FutureBuilder(
@@ -34,7 +42,7 @@ class _ProfileDetailState extends State<ProfileDetail> with ProfileDetailMixin {
               children: [
                 if (user!.profilePhotoURL != '')
                   InkWell(
-                    onTap: _pickFile,
+                    onTap: navigateToSelectPP,
                     child: Center(
                       child: CircleAvatar(
                         radius: 50,
@@ -44,7 +52,7 @@ class _ProfileDetailState extends State<ProfileDetail> with ProfileDetailMixin {
                   )
                 else
                   InkWell(
-                    onTap: _pickFile,
+                    onTap: navigateToSelectPP,
                     child: Center(
                       child: _filePath != null
                           ? CircleAvatar(
@@ -85,10 +93,6 @@ class _ProfileDetailState extends State<ProfileDetail> with ProfileDetailMixin {
 
                 Container(),
                 const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: _uploadFile,
-                  child: const Text('Kaydet'),
-                ),
               ],
             );
           } else if (snapshot.hasError) {

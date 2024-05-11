@@ -8,6 +8,15 @@ mixin ProfileDetailMixin on State<ProfileDetail> {
   String? _filePath;
   String? _downloadURL;
 
+  void navigateToSelectPP() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SelectProfilePictureView(),
+      ),
+    );
+  }
+
   Future<void> _pickFile() async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -16,6 +25,12 @@ mixin ProfileDetailMixin on State<ProfileDetail> {
         setState(() {
           _filePath = result.files.single.path;
         });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ImageDisplayPage(filePath: _filePath!),
+          ),
+        );
       }
     } catch (e) {
       // Handle file picking error
@@ -46,34 +61,6 @@ mixin ProfileDetailMixin on State<ProfileDetail> {
         });
       } catch (e) {
         // Handle file upload error
-        print('Error uploading file: $e');
-      }
-    } else {
-      print('No file selected');
-    }
-  }
-
-  Future<void> uploadFile(void Function(String?) onUploadComplete) async {
-    if (_filePath != null) {
-      try {
-        File file = File(_filePath!);
-        String fileName = '${DateTime.now().millisecondsSinceEpoch}-${file.path.split('/').last}';
-        final ref = FirebaseStorage.instance.ref().child('files/$fileName');
-        await ref.putFile(file);
-        _downloadURL = await ref.getDownloadURL();
-        print(_downloadURL);
-
-        // Update profile photo for current user
-        User? user = FirebaseAuth.instance.currentUser;
-        if (user != null) {
-          await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-            'profilePhotoURL': _downloadURL,
-          });
-        }
-
-        onUploadComplete(_downloadURL);
-        _filePath = null;
-      } catch (e) {
         print('Error uploading file: $e');
       }
     } else {

@@ -20,39 +20,28 @@ class CustomTextFieldWithIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height * 0.08,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: const Color.fromRGBO(49, 62, 85, 0.78),
-      ),
-      child: Center(
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: TextFormField(
-                style: const TextStyle(color: Colors.white),
-                controller: controller,
-                decoration: InputDecoration(
-                  hintText: hintText,
-                  hintStyle: const TextStyle(
-                    color: Colors.white,
-                  ),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.only(left: 16),
-                ),
-              ),
-            ),
-            const Spacer(),
-            Expanded(
-              child: IconButton(
-                onPressed: onPressed,
-                icon: Icon(icon, color: Colors.white),
-              ),
-            ),
-          ],
+    return InkWell(
+      onTap: onPressed,
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: hintText,
+          labelStyle: TextStyle(fontSize: 18),
+          prefixIcon: IconButton(onPressed: onPressed, icon: Icon(icon)),
+          filled: true,
+          fillColor: Colors.grey[200],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
       ),
     );

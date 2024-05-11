@@ -1,6 +1,9 @@
+import 'package:codegen/codegen.dart';
 import 'package:etkinlikapp/features/event_room/domain/services/event_room_service.dart';
 import 'package:etkinlikapp/features/event_room/screens/event_room_detail/event_room_detail_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 class UsersActiveEventsView extends StatefulWidget {
   const UsersActiveEventsView({super.key});
@@ -16,6 +19,22 @@ class _UsersActiveEventsViewState extends State<UsersActiveEventsView> {
       future: EventRoomService().getEventRoomsByLoggedUser(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data!.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    Assets.images.noData.path,
+                    width: 180,
+                    height: 180,
+                  ),
+                  const SizedBox(height: 50),
+                  Text('Henüz etkinlik odası oluşturmadınız.', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            );
+          }
           if (snapshot.hasData) {
             final events = snapshot.data;
             return ListView.builder(

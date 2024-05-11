@@ -7,21 +7,30 @@ abstract class HomePageState extends Equatable {
   List<Object> get props => [];
 }
 
-class HomePageInitial extends HomePageState {}
+final class HomePageInitial extends HomePageState {}
 
-class HomePageLoading extends HomePageState {}
+final class HomePageLoading extends HomePageState {}
 
-class HomePageLoaded extends HomePageState {
+final class HomePageLoaded extends HomePageState {
   final UserModel user;
   final List<EventRoomModel> eventRooms;
+  final List<String> provinces;
 
-  const HomePageLoaded({required this.user, required this.eventRooms});
+  const HomePageLoaded({required this.user, required this.eventRooms, required this.provinces});
 
   @override
-  List<Object> get props => [user, eventRooms];
+  List<Object> get props => [user, eventRooms, provinces];
 }
 
-class HomePageErrorState extends HomePageState {
+final class NoEventRoomFound extends HomePageState {
+  final UserModel user;
+  const NoEventRoomFound({required this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
+final class HomePageErrorState extends HomePageState {
   final String message;
 
   const HomePageErrorState({required this.message});

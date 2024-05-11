@@ -1,4 +1,4 @@
-import 'package:etkinlikapp/features/auth/widget/login_option_buttons.dart';
+import 'package:etkinlikapp/features/auth/widget/login_options_widget.dart';
 import 'package:flutter/material.dart';
 
 class SignInOptionsView extends StatelessWidget {
@@ -51,17 +51,17 @@ class SignInOptionsView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              const LoginOptionButton(
-                imagePath: 'google_icon',
-                loginOptionText: 'Google ile devam et',
-                path: '',
-              ),
-              const SizedBox(height: 20),
-              const LoginOptionButton(
-                imagePath: 'apple_icon',
-                loginOptionText: 'Apple ile devam et',
-                path: '',
-              ),
+              // const LoginOptionButton(
+              //   imagePath: 'google_icon',
+              //   loginOptionText: 'Google ile devam et',
+              //   path: '',
+              // ),
+              // const SizedBox(height: 20),
+              // const LoginOptionButton(
+              //   imagePath: 'apple_icon',
+              //   loginOptionText: 'Apple ile devam et',
+              //   path: '',
+              // ),
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(context, '/login'),

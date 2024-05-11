@@ -15,7 +15,7 @@ class EventRoomService {
 
   //Get events by category
   Future<List<EventRoomModel>> getEventRoomsByCategory({required String category}) async {
-    final snapshot = await _firestore.collection('event_rooms').where('category', isEqualTo: category).get();
+    final snapshot = await _firestore.collection('event_rooms').where('category', isEqualTo: category).where('isStarted', isEqualTo: false).get();
     if (snapshot.docs.isEmpty) {
       print('Belirtilen kategoride etkinlik bulunamadı.');
     }
@@ -69,7 +69,20 @@ class EventRoomService {
     return eventRooms;
   }
 
-  Future<void> createRoom({required String eventName, required String eventDetail, required String eventDate, required String category, required String eventTime, required String creatorUid, required String namesurname, required String coordinate, required String province, required String district, required String addressDetail}) async {
+  Future<void> createRoom({
+    required String eventName,
+    required String eventDetail,
+    required String eventDate,
+    required String category,
+    required String eventTime,
+    required String creatorUid,
+    required String namesurname,
+    required String coordinate,
+    required String province,
+    required String district,
+    required String addressDetail,
+    bool isStarted = false,
+  }) async {
     // Kategorileri isimlerle eşleştirilmiş bir harita oluştur
     // List<Map<String, String>> categoryList = category.map((categoryName) => {'name': categoryName}).toList();
 
@@ -89,6 +102,7 @@ class EventRoomService {
       'province': province,
       'district': district,
       'address_detail': addressDetail,
+      'isStarted': isStarted,
     };
     await _firestore.collection('event_rooms').add(eventData);
   }

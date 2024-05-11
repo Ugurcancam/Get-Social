@@ -1,38 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <!-- Primary colors -->
-    <color name="primary">#1565C0</color> <!-- Blue -->
-    <color name="primary_variant">#0D47A1</color> <!-- Dark Blue -->
-    <color name="on_primary">#FFFFFF</color> <!-- White -->
+    
+    <color name="primary">#5669FF</color> 
+    <color name="secondary">#212861</color> 
+    <color name="third">#eff1ff</color> 
+    <color name="button">#e0e4ff</color> 
 
-    <!-- Secondary colors -->
-    <color name="secondary">#FFC107</color> <!-- Amber -->
-    <color name="secondary_variant">#FFA000</color> <!-- Dark Amber -->
-    <color name="on_secondary">#212121</color> <!-- Dark Grey -->
 
-    <!-- Background colors -->
-    <color name="background">#FFFFFF</color> <!-- White -->
-    <color name="on_background">#212121</color> <!-- Dark Grey -->
-
-    <!-- Surface colors -->
-    <color name="surface">#F5F5F5</color> <!-- Light Grey -->
-    <color name="on_surface">#212121</color> <!-- Dark Grey -->
-
-    <!-- Error colors -->
-    <color name="error">#D32F2F</color> <!-- Red -->
-    <color name="on_error">#FFFFFF</color> <!-- White -->
-
-    <!-- Text colors -->
-    <color name="primary_text">#212121</color> <!-- Dark Grey -->
-    <color name="secondary_text">#757575</color> <!-- Grey -->
-
-    <!-- Icon colors -->
-    <color name="icon">#212121</color> <!-- Dark Grey -->
-    <color name="icon_active">#1565C0</color> <!-- Blue -->
-
-    <!-- Button colors -->
-    <color name="button_background">#1565C0</color> <!-- Blue -->
-    <color name="button_text">#FFFFFF</color> <!-- White -->
-    <color name="button_border">#0D47A1</color> <!-- Dark Blue -->
 </resources>

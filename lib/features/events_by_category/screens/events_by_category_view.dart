@@ -1,6 +1,8 @@
+import 'package:codegen/gen/assets.gen.dart';
 import 'package:etkinlikapp/features/event_room/domain/services/event_room_service.dart';
 import 'package:etkinlikapp/features/event_room/screens/event_room_detail/event_room_detail_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class EventsByCategoryView extends StatefulWidget {
   final String categoryName;
@@ -14,11 +16,29 @@ class _EventsByCategoryViewState extends State<EventsByCategoryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(widget.categoryName),
+      ),
       body: FutureBuilder(
         future: EventRoomService().getEventRoomsByCategory(category: widget.categoryName),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data!.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      Assets.images.noCategoryFound.path,
+                      width: 180,
+                      height: 180,
+                    ),
+                    const SizedBox(height: 50),
+                    Text('Bu Kategoride Etkinlik Bulunmuyor.', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              );
+            }
             if (snapshot.hasData) {
               final events = snapshot.data;
               return ListView.builder(

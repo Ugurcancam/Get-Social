@@ -75,6 +75,15 @@ class UserService {
       print('No file selected');
     }
   }
+
+  //Update users province and district
+  Future<void> updateUserLocation(String uid, String province, String district) async {
+    await _firestore.collection('users').doc(uid).update({
+      'province': province,
+      'district': district,
+    });
+  }
+
   // //Get logged in users information
   // Future<UserModel?> getLoggedInUserDetails(String uid) async {
   //   final snapshot = await _firestore.collection('users').doc(uid).get();

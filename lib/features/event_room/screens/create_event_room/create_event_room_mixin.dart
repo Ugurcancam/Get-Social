@@ -5,12 +5,6 @@ mixin CreateEventRoomPageMixin on State<CreateEventRoomPage> {
   double get width => MediaQuery.of(context).size.width;
   double get height => MediaQuery.of(context).size.height;
 
-  //Current Position
-  LatLng? _currentP;
-
-  //For getting the coordinate of the place which clicked on the map
-  String selectedPlaceCoordinate = '';
-
   //Services
   final EventRoomService _eventRoomService = EventRoomService();
 
@@ -20,11 +14,6 @@ mixin CreateEventRoomPageMixin on State<CreateEventRoomPage> {
   //Provider
   String? get nameSurname => Provider.of<UserProvider>(context, listen: false).namesurname;
   String? get uid => Provider.of<UserProvider>(context, listen: false).uid;
-
-  //Variables for selecting Province and District
-  List<String> ilcelerr = [];
-  late String selectedProvince;
-  late String selectedDistrict;
 
   //Variables for selecting Category
   late List<String>? selectedCategoryList;
@@ -37,13 +26,6 @@ mixin CreateEventRoomPageMixin on State<CreateEventRoomPage> {
   void initState() {
     super.initState();
     selectedCategoryList = [];
-    selectedProvince = '';
-    selectedDistrict = '';
-    LocationPermissionManager(_currentP, _createEventRoomViewModel.locationController, onLocationChanged: (LatLng location) {
-      setState(() {
-        _currentP = location;
-      });
-    }).getLocationUpdates();
     _createRoomBloc = CreateRoomBloc();
     _createRoomBloc.add(FetchDataEvent());
   }
@@ -52,7 +34,6 @@ mixin CreateEventRoomPageMixin on State<CreateEventRoomPage> {
   void dispose() {
     super.dispose();
     _createRoomBloc.close();
-    _createEventRoomViewModel.eventPlaceDescriptionController.dispose();
     _createEventRoomViewModel.eventDateController.dispose();
     _createEventRoomViewModel.eventDescriptionController.dispose();
     _createEventRoomViewModel.eventNameController.dispose();
@@ -60,11 +41,9 @@ mixin CreateEventRoomPageMixin on State<CreateEventRoomPage> {
     _createEventRoomViewModel.eventCategoryController.dispose();
   }
 
-  // Completing CallBack Function on getPlaceDetails function
-  void setAddress(String address) {
-    setState(() {
-      _createEventRoomViewModel.eventPlaceDescriptionController.text = address;
-    });
+  Future<void> navigateToHomeOnComplete() async {
+    await Future.delayed(Duration(seconds: 3));
+    Navigator.pushNamed(context, '/homepage');
   }
 
   Future<void> _selectDate() async {

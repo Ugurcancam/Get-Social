@@ -9,7 +9,6 @@ final class CreateEventRoomViewModel {
   final TextEditingController eventCategoryController = TextEditingController();
   final TextEditingController eventDateController = TextEditingController();
   final TextEditingController eventTimeController = TextEditingController();
-  final TextEditingController eventPlaceDescriptionController = TextEditingController();
   //Controller for Location
   final Location locationController = Location();
 

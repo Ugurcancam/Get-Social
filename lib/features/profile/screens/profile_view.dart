@@ -1,5 +1,5 @@
+import 'package:codegen/codegen.dart';
 import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
-import 'package:etkinlikapp/features/profile/screens/users_event_rooms_view.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {
@@ -7,98 +7,164 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Icon iconForward = Icon(
+    final Icon iconForward = const Icon(
       (Icons.arrow_forward_ios),
       size: 17,
+      color: ColorName.primary,
     );
     return Scaffold(
       body: ListView(
         children: [
-          Column(children: [
-            Container(
-              margin: EdgeInsets.only(top: 50),
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage('assets/images/img_no_profile_pic.png'),
+          Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 30),
+                child: const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('assets/images/img_no_profile_pic.png'),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Kullanıcı Adı',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-          ]),
+              const SizedBox(
+                height: 12,
+              ),
+              const Text(
+                'Kullanıcı Adı',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+            ],
+          ),
           const SizedBox(
             height: 25,
           ),
           ListTile(
-            leading: Text('Hesabım', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ),
-          ListTile(
-            title: Text('Profilim'),
+            leading: const Icon(
+              Icons.person,
+              color: ColorName.primary,
+              size: 25,
+            ),
+            title: const Text(
+              'Profilim',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             onTap: () {
               Navigator.pushNamed(context, '/profiledetail');
             },
             trailing: iconForward,
           ),
+          const SizedBox(
+            height: 12,
+          ),
           ListTile(
-            title: Text('Etkinlik Odalarım'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => UserEventRooms()));
-            },
+            leading: const Icon(
+              Icons.language_outlined,
+              color: ColorName.primary,
+              size: 25,
+            ),
+            title: const Text(
+              'Dil',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             trailing: iconForward,
           ),
           const SizedBox(
-            height: 25,
+            height: 12,
           ),
           ListTile(
-            leading: Text('Ayarlar', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ),
-          ListTile(
-            title: Text('Şehir'),
-            trailing: iconForward,
-          ),
-          ListTile(
-            title: Text('Dil'),
+            leading: const Icon(
+              Icons.person_add_alt_1_outlined,
+              color: ColorName.primary,
+              size: 25,
+            ),
+            title: const Text(
+              'Arkadaşlarını Davet Et',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             trailing: iconForward,
           ),
           const SizedBox(
-            height: 25,
+            height: 12,
           ),
           ListTile(
-            leading: Text('Destek', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ),
-          ListTile(
-            title: Text('Yardım Merkezi'),
-            onTap: () {
-              // Handle Help option
-            },
+            leading: const Icon(
+              Icons.help_outline_outlined,
+              color: ColorName.primary,
+              size: 25,
+            ),
+            title: const Text(
+              'Yardım Merkezi',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             trailing: iconForward,
           ),
+          const SizedBox(
+            height: 12,
+          ),
           ListTile(
-            title: Text('Geribildirim'),
-            onTap: () {
-              // Handle Feedback option
-            },
+            leading: const Icon(
+              Icons.feedback_outlined,
+              color: ColorName.primary,
+              size: 25,
+            ),
+            title: const Text(
+              'Geri Bildirim',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             trailing: iconForward,
           ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.red,
+          const SizedBox(
+            height: 12,
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.privacy_tip_outlined,
+              color: ColorName.primary,
+              size: 25,
             ),
-            margin: EdgeInsets.only(top: 25, left: 15, right: 15),
-            child: TextButton(
-              onPressed: () {
-                AuthService().logOut(context);
-              },
-              child: Text('Çıkış Yap', style: TextStyle(color: Colors.white)),
+            title: const Text(
+              'Gizlilik Politikası',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            trailing: iconForward,
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.logout,
+              color: ColorName.primary,
+              size: 25,
+            ),
+            title: const Text(
+              'Çıkış Yap',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: iconForward,
+            onTap: () => AuthService().logOut(context),
           ),
         ],
       ),

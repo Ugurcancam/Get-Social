@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
               fontFamily: 'SFProRegular',
               useMaterial3: true,
             ),
-            home: snapshot.data!.emailVerified ? const BottomNavbar() : const VerifyEmailPage(),
+            home: snapshot.data!.emailVerified ? BottomNavbar() : const VerifyEmailPage(),
           );
         } else {
           return MaterialApp(

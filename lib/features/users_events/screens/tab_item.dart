@@ -1,3 +1,4 @@
+import 'package:codegen/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
 
 class TabItem extends StatelessWidget {
@@ -19,6 +20,10 @@ class TabItem extends StatelessWidget {
           Text(
             title,
             overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 18,
+              color: ColorName.primary,
+            ),
           ),
           if (count > 0)
             Container(

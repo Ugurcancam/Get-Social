@@ -16,7 +16,7 @@ class RegisterButton extends StatelessWidget {
         height: 60,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: const Color.fromRGBO(95, 25, 242, 1),
+          color: ColorName.primary,
         ),
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -74,37 +74,51 @@ class ProvinceTextField extends StatelessWidget {
 
 class ConfirmPasswordTextfield extends StatelessWidget {
   const ConfirmPasswordTextfield({
-    required this.width,
-    required this.height,
     required this.registerViewModel,
     required this.checkPasswordController,
+    required this.isPasswordVisible,
+    required this.controlPasswordVisibility,
     super.key,
   });
 
-  final double width;
-  final double height;
+  final bool isPasswordVisible;
+  final VoidCallback controlPasswordVisibility;
   final RegisterViewModel registerViewModel;
   final TextEditingController checkPasswordController;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width * 0.82,
-      height: height * 0.08,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: authContainerTextFieldColor),
-      child: Center(
-        child: TextFormField(
-          style: TextStyle(color: thirdTextColor),
-          validator: registerViewModel.validatePassword,
-          controller: checkPasswordController,
-          decoration: const InputDecoration(
-            hintText: 'Şifre Tekrar',
-            hintStyle: TextStyle(
-              color: Colors.white,
-            ),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(left: 16),
+    return TextFormField(
+      controller: checkPasswordController,
+      obscureText: !isPasswordVisible,
+      validator: (value) => registerViewModel.validatePassword(checkPasswordController.text),
+      decoration: InputDecoration(
+        labelText: 'Şifre Tekrar',
+        labelStyle: TextStyle(fontSize: 18),
+        prefixIcon: const Icon(
+          Icons.password_outlined,
+          color: Colors.black,
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+            color: Colors.grey,
           ),
+          onPressed: controlPasswordVisibility,
+        ),
+        filled: true,
+        fillColor: Colors.grey[200],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
         ),
       ),
     );
@@ -113,37 +127,51 @@ class ConfirmPasswordTextfield extends StatelessWidget {
 
 class PasswordTextField extends StatelessWidget {
   const PasswordTextField({
-    required this.width,
-    required this.height,
     required this.registerViewModel,
     required this.passwordController,
+    required this.isPasswordVisible,
+    required this.controlPasswordVisibility,
     super.key,
   });
 
-  final double width;
-  final double height;
+  final bool isPasswordVisible;
+  final VoidCallback controlPasswordVisibility;
   final RegisterViewModel registerViewModel;
   final TextEditingController passwordController;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width * 0.82,
-      height: height * 0.08,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: authContainerTextFieldColor),
-      child: Center(
-        child: TextFormField(
-          style: TextStyle(color: thirdTextColor),
-          validator: registerViewModel.validatePassword,
-          controller: passwordController,
-          decoration: const InputDecoration(
-            hintText: 'Şifre',
-            hintStyle: TextStyle(
-              color: Colors.white,
-            ),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(left: 16),
+    return TextFormField(
+      controller: passwordController,
+      obscureText: !isPasswordVisible,
+      validator: (value) => registerViewModel.validatePassword(passwordController.text),
+      decoration: InputDecoration(
+        labelText: 'Şifre',
+        labelStyle: TextStyle(fontSize: 18),
+        prefixIcon: const Icon(
+          Icons.password_outlined,
+          color: Colors.black,
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+            color: Colors.grey,
           ),
+          onPressed: controlPasswordVisibility,
+        ),
+        filled: true,
+        fillColor: Colors.grey[200],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
         ),
       ),
     );
@@ -152,38 +180,40 @@ class PasswordTextField extends StatelessWidget {
 
 class EmailTextField extends StatelessWidget {
   const EmailTextField({
-    required this.width,
-    required this.height,
     required this.registerViewModel,
     required this.emailController,
     super.key,
   });
 
-  final double width;
-  final double height;
   final RegisterViewModel registerViewModel;
   final TextEditingController emailController;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width * 0.82,
-      height: height * 0.08,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: authContainerTextFieldColor),
-      child: Center(
-        child: TextFormField(
-          style: TextStyle(color: thirdTextColor),
-          keyboardType: TextInputType.emailAddress,
-          validator: registerViewModel.validateEmail,
-          controller: emailController,
-          decoration: const InputDecoration(
-            hintText: 'E Posta',
-            hintStyle: TextStyle(
-              color: Colors.white,
-            ),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(left: 16),
-          ),
+    return TextFormField(
+      controller: emailController,
+      keyboardType: TextInputType.emailAddress,
+      validator: (value) => registerViewModel.validateEmail(emailController.text),
+      decoration: InputDecoration(
+        labelText: 'E-Posta',
+        labelStyle: TextStyle(fontSize: 18),
+        prefixIcon: const Icon(
+          Icons.email_outlined,
+          color: Colors.black,
+        ),
+        filled: true,
+        fillColor: Colors.grey[200],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
         ),
       ),
     );
@@ -192,40 +222,42 @@ class EmailTextField extends StatelessWidget {
 
 class NameSurnameTextField extends StatelessWidget {
   const NameSurnameTextField({
-    required this.width,
-    required this.height,
     required this.registerViewModel,
     required this.nameSurnameController,
     super.key,
   });
 
-  final double width;
-  final double height;
   final RegisterViewModel registerViewModel;
   final TextEditingController nameSurnameController;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width * 0.82,
-      height: height * 0.08,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: authContainerTextFieldColor),
-      child: Center(
-        child: TextFormField(
-          style: TextStyle(color: thirdTextColor),
-          keyboardType: TextInputType.name,
-          validator: registerViewModel.validateNameSurname,
-          controller: nameSurnameController,
-          decoration: const InputDecoration(
-            hintText: 'Ad Soyad',
-            hintStyle: TextStyle(
-              color: Colors.white,
-            ),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(left: 16),
-          ),
+    return TextFormField(
+      controller: nameSurnameController,
+      validator: (value) => registerViewModel.validateNameSurname(nameSurnameController.text),
+      decoration: InputDecoration(
+        labelText: 'Ad Soyad',
+        labelStyle: TextStyle(fontSize: 18),
+        prefixIcon: const Icon(
+          Icons.person_outline_rounded,
+          color: Colors.black,
+        ),
+        filled: true,
+        fillColor: Colors.grey[200],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
         ),
       ),
+      keyboardType: TextInputType.name,
     );
   }
 }
@@ -241,10 +273,10 @@ class NavigateToLoginPage extends StatelessWidget {
       onTap: () => Navigator.pushNamed(context, '/login'),
       child: const Text.rich(
         TextSpan(
-          text: 'Bir hesabınız var mı? ',
+          text: 'Bir hesabın var mı? ',
           style: TextStyle(
             fontSize: 18,
-            color: Colors.white,
+            color: Colors.black,
           ),
           children: [
             TextSpan(
