@@ -24,7 +24,7 @@ class AuthService {
           district: district,
         );
         await userCredential.user!.sendEmailVerification();
-        await navigator.pushNamed('/login');
+        await navigator.pushNamed('/verifyemail');
       }
     } on FirebaseAuthException catch (error) {
       print(error.toString());

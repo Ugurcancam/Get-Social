@@ -1,6 +1,5 @@
 import 'package:etkinlikapp/core/routes/routes.dart';
 import 'package:etkinlikapp/core/services/locale_data_service.dart';
-import 'package:etkinlikapp/deneme.dart';
 import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
 import 'package:etkinlikapp/features/auth/screens/sign_in_options_view.dart';
 import 'package:etkinlikapp/features/auth/screens/verify_mail/verify_email_view.dart';

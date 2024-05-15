@@ -37,48 +37,40 @@ class _UpdateUsersLocationViewState extends State<UpdateUsersLocationView> {
           }
           if (snapshot.hasData) {
             final provinces = snapshot.data as List<String>;
-            return ElevatedButton(
-              child: Text('data'),
-              onPressed: () => showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return Column(
-                    children: [
-                      CustomDropdown<String>(
-                        decoration: const CustomDropdownDecoration(
-                          closedFillColor: Color.fromRGBO(49, 62, 85, 0.78),
-                        ),
-                        hintText: 'Şehir Seçiniz',
-                        items: provinces.toList(),
-                        onChanged: (province) async {
-                          final ilceler = await ProvinceService().getDisctricts(province);
-                          setState(() {
-                            ilcelerr = ilceler;
-                            selectedProvince = province;
-                          });
-                          print(selectedProvince);
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      if (ilcelerr.isNotEmpty)
-                        CustomDropdown<String>(
-                          hintText: 'İlçe Seçiniz',
-                          items: ilcelerr.toList(),
-                          onChanged: (district) {
-                            setState(() {
-                              selectedDistrict = district;
-                            });
-                            print(selectedDistrict);
-                          },
-                        ),
-                      ElevatedButton(
-                        onPressed: () => UserService().updateUserLocation(uid, selectedProvince, selectedDistrict),
-                        child: Text('Kaydet'),
-                      ),
-                    ],
-                  );
-                },
-              ),
+            return Column(
+              children: [
+                CustomDropdown<String>(
+                  decoration: const CustomDropdownDecoration(
+                    closedFillColor: Color.fromRGBO(49, 62, 85, 0.78),
+                  ),
+                  hintText: 'Şehir Seçiniz',
+                  items: provinces.toList(),
+                  onChanged: (province) async {
+                    final ilceler = await ProvinceService().getDisctricts(province);
+                    setState(() {
+                      ilcelerr = ilceler;
+                      selectedProvince = province;
+                    });
+                    print(selectedProvince);
+                  },
+                ),
+                const SizedBox(height: 20),
+                if (ilcelerr.isNotEmpty)
+                  CustomDropdown<String>(
+                    hintText: 'İlçe Seçiniz',
+                    items: ilcelerr.toList(),
+                    onChanged: (district) {
+                      setState(() {
+                        selectedDistrict = district;
+                      });
+                      print(selectedDistrict);
+                    },
+                  ),
+                ElevatedButton(
+                  onPressed: () => UserService().updateUserLocation(uid, selectedProvince, selectedDistrict),
+                  child: Text('Kaydet'),
+                ),
+              ],
             );
           }
           return const SizedBox();

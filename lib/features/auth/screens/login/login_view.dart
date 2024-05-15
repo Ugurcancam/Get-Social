@@ -6,6 +6,8 @@ import 'package:etkinlikapp/features/auth/domain/view_models/login_view_model.da
 import 'package:etkinlikapp/features/auth/widget/login_options_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 part 'login_view_mixin.dart';
 part 'login_sub_view.dart';

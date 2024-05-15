@@ -10,10 +10,8 @@ mixin HomePageMixin on State<HomePage> {
   double get width => MediaQuery.of(context).size.width;
   double get height => MediaQuery.of(context).size.height;
 
-  // Kullanıcı bilgileri
-  String? email;
-  String? uid;
-  String? namesurname;
+  // get logged in users email
+  final email = FirebaseAuth.instance.currentUser!.email;
 
   // Variables for selecting Province and District
   List<String> ilcelerr = [];
@@ -21,28 +19,20 @@ mixin HomePageMixin on State<HomePage> {
   late String selectedDistrict;
 
   // Kullanıcı bilgilerini Local'den getir
-  Future<void> loadUserDataFromStorage() async {
-    email = await localDataService.getStringData('userEmail');
-    uid = await localDataService.getStringData('userId');
-    setState(() {});
-  }
-
-  //Fetch user data from with getUserDetails method and set username
-  Future<void> getUserDetails() async {
-    final userData = await AuthService().getUserDetails(email!);
-    namesurname = userData.namesurname;
-    Provider.of<UserProvider>(context, listen: false).setNameSurname(namesurname!);
-    setState(() {});
-  }
+  // Future<void> loadUserDataFromStorage() async {
+  //   email = await localDataService.getStringData('userEmail');
+  //   uid = await localDataService.getStringData('userId');
+  //   setState(() {});
+  // }
 
   @override
   void initState() {
     super.initState();
-    loadUserDataFromStorage().then((value) async {
-      await AuthService().getUserDetails(email!);
-      await getUserDetails();
-      homePageBloc.add(GetHomePageData(userEmail: email!));
-      Provider.of<UserProvider>(context, listen: false).setUid(uid!);
-    });
+    // loadUserDataFromStorage().then((value) async {
+    //   await AuthService().getUserDetails(email!);
+    //   await getUserDetails();
+    //   Provider.of<UserProvider>(context, listen: false).setUid(uid!);
+    // });
+    homePageBloc.add(GetHomePageData(userEmail: email!));
   }
 }

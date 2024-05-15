@@ -7,6 +7,7 @@ import 'package:etkinlikapp/features/auth/providers/user_provider.dart';
 import 'package:etkinlikapp/features/event_room/screens/event_room_detail/event_room_detail_view.dart';
 import 'package:etkinlikapp/features/home/state/bloc/home_page_bloc.dart';
 import 'package:etkinlikapp/features/update_users_location/screens/update_users_location_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,37 +60,40 @@ class _HomePageState extends State<HomePage> with HomePageMixin {
                       width: 50,
                       height: 50,
                     ),
-              title: Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Mevcut Konum',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey[100],
+              title: InkWell(
+                onTap: () => Navigator.pushNamed(context, '/updatelocation'),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Mevcut Konum',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey[100],
+                        ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          color: ColorName.button,
-                          size: 18,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          user.province,
-                          style: TextStyle(
-                            fontSize: 19,
-                            color: Colors.white,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: ColorName.button,
+                            size: 18,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            user.province,
+                            style: TextStyle(
+                              fontSize: 19,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               actions: [
@@ -113,11 +117,16 @@ class _HomePageState extends State<HomePage> with HomePageMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
-                  Assets.images.googleIcon.path,
+                SvgPicture.asset(
+                  Assets.images.noData.path,
                   height: 200,
                   width: 200,
                 ),
+                // Image.asset(
+                //   Assets.images.noData.path,
+                //   height: 200,
+                //   width: 200,
+                // ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -154,37 +163,40 @@ class _HomePageState extends State<HomePage> with HomePageMixin {
                       width: 50,
                       height: 50,
                     ),
-              title: Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Mevcut Konum',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey[100],
+              title: InkWell(
+                onTap: () => Navigator.pushNamed(context, '/updatelocation'),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Mevcut Konum',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey[100],
+                        ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          color: ColorName.button,
-                          size: 18,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          user.province,
-                          style: TextStyle(
-                            fontSize: 19,
-                            color: Colors.white,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: ColorName.button,
+                            size: 18,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            user.province,
+                            style: TextStyle(
+                              fontSize: 19,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               actions: [

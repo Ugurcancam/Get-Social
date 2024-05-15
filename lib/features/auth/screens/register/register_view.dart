@@ -7,6 +7,8 @@ import 'package:etkinlikapp/features/auth/domain/services/auth_service.dart';
 import 'package:etkinlikapp/features/auth/domain/view_models/register_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 part 'register_sub_view.dart';
 part 'register_view_mixin.dart';
@@ -30,7 +32,6 @@ class _RegisterViewState extends State<RegisterView> with RegisterViewMixin {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                SizedBox(height: height * 0.10),
                 const Text(
                   'Merhaba!',
                   style: TextStyle(
@@ -62,12 +63,12 @@ class _RegisterViewState extends State<RegisterView> with RegisterViewMixin {
                 SizedBox(
                   width: width,
                   height: height * 0.08,
-                  child: CustomDropdown<String>(
+                  child: CustomDropdown<String>.search(
                     validateOnChange: true,
                     validator: (value) => value == null ? "Lütfen il seçiniz" : null,
                     decoration: CustomDropdownDecoration(
                       closedFillColor: Colors.grey[200],
-                      hintStyle: TextStyle(color: Colors.black),
+                      hintStyle: TextStyle(color: Colors.black, fontSize: 18),
                       headerStyle: TextStyle(color: Colors.black),
                     ),
                     hintText: 'Şehir Seçiniz',
@@ -119,6 +120,12 @@ class _RegisterViewState extends State<RegisterView> with RegisterViewMixin {
                         province: selectedProvince,
                         district: selectedDistrict,
                         profilePhotoUrl: '',
+                      );
+                      showTopSnackBar(
+                        Overlay.of(context),
+                        CustomSnackBar.success(
+                          message: "Hesabınız başarıyla oluşturuldu.",
+                        ),
                       );
                     }
                   },
