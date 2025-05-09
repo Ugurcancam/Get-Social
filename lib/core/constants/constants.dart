@@ -22,7 +22,7 @@ const buttonColor = Color.fromRGBO(26, 30, 42, 1);
 const buttonColor2 = Color.fromRGBO(43, 55, 61, 1);
 
 // Google Api Key
-const google_api_key = 'AIzaSyCAx8GwjwEIblR54jbljhqVjkTd86Tj2ks';
+const google_api_key = '';
 
 // Navigator Key
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
